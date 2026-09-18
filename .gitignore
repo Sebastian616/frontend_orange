@@ -1,0 +1,7 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos de entorno y credenciales
+.env
+.env.local
+.env.example
