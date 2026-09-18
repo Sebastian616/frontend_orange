@@ -1,0 +1,46 @@
+:root {
+  /* Paleta de colores */
+  --color-verde-claro: #BBE1C3;   /* fondos */
+  --color-verde-menta: #A7CDBD;   /* secciones */
+  --color-verde-oliva: #869D7A;   /* elementos */
+  --color-marron-grisaceo: #91785D; /* textos secundarios */
+  --color-marron-oscuro: #8B5D33;   /* títulos / CTA */
+
+  --color-texto-principal: #2B2B24;
+  --color-texto-secundario: var(--color-marron-grisaceo);
+  --color-fondo: #FFFFFF;
+  --color-fondo-seccion: var(--color-verde-claro);
+  --color-borde: #E4E7DF;
+
+  /* Tipografías */
+  --font-titulos: 'Playfair Display', Georgia, serif;
+  --font-texto: 'Montserrat', -apple-system, sans-serif;
+
+  /* Escala tipográfica */
+  --h1-size: 32px;
+  --h1-line: 40px;
+  --h2-size: 28px;
+  --h2-line: 36px;
+  --h3-size: 24px;
+  --h3-line: 32px;
+  --texto-grande: 16px;
+  --texto-grande-line: 24px;
+  --texto-normal: 14px;
+  --texto-normal-line: 22px;
+  --texto-pequeno: 12px;
+  --texto-pequeno-line: 18px;
+
+  /* Layout */
+  --radio-borde: 12px;
+  --sombra-tarjeta: 0 2px 10px rgba(43, 43, 36, 0.08);
+  --max-ancho: 1280px;
+  --espaciado-seccion: 64px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --espaciado-seccion: 40px;
+    --h1-size: 26px;
+    --h1-line: 32px;
+  }
+}

@@ -1,0 +1,125 @@
+.navbar {
+  border-bottom: 1px solid var(--color-borde);
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.navbar__interior {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 72px;
+}
+
+.navbar__logo {
+  font-family: var(--font-titulos);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-marron-oscuro);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.navbar__enlaces {
+  display: flex;
+  gap: 28px;
+  flex: 1;
+}
+
+.navbar__enlace {
+  font-size: var(--texto-normal);
+  font-weight: 500;
+  color: var(--color-texto-principal);
+}
+
+.navbar__enlace:hover {
+  color: var(--color-marron-oscuro);
+}
+
+.navbar__acciones {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.navbar__icono {
+  background: none;
+  position: relative;
+  color: var(--color-texto-principal);
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.navbar__icono:hover {
+  color: var(--color-marron-oscuro);
+}
+
+.navbar__carrito {
+  position: relative;
+}
+
+.navbar__badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: var(--color-marron-oscuro);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.navbar__saludo {
+  font-size: var(--texto-normal);
+  font-weight: 500;
+  color: var(--color-texto-principal);
+  white-space: nowrap;
+}
+
+.navbar__hamburguesa {
+  display: none;
+  background: none;
+  padding: 4px;
+  color: var(--color-texto-principal);
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .navbar__saludo {
+    display: none;
+  }
+
+  .navbar__hamburguesa {
+    display: flex;
+    order: -1;
+  }
+
+  .navbar__enlaces {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 16px 24px;
+    gap: 18px;
+    border-bottom: 1px solid var(--color-borde);
+    display: none;
+  }
+
+  .navbar__enlaces--abierto {
+    display: flex;
+  }
+
+  .navbar__logo {
+    margin: 0 auto;
+  }
+}

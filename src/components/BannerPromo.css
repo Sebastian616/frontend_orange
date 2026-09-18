@@ -1,0 +1,25 @@
+.banner-promo {
+  background: var(--color-verde-oliva);
+  padding: 56px 0;
+}
+
+.banner-promo__contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.banner-promo__titulo {
+  color: #fff;
+  max-width: 20ch;
+}
+
+@media (max-width: 640px) {
+  .banner-promo__contenido {
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}

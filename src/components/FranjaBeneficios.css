@@ -1,0 +1,53 @@
+.franja-beneficios {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.franja-beneficios__grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.franja-beneficios__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.franja-beneficios__icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-verde-claro);
+  color: var(--color-marron-oscuro);
+  flex-shrink: 0;
+}
+
+.franja-beneficios__titulo {
+  margin: 0;
+  font-weight: 600;
+  font-size: var(--texto-normal);
+}
+
+.franja-beneficios__detalle {
+  margin: 0;
+  font-size: var(--texto-pequeno);
+  color: var(--color-texto-secundario);
+}
+
+@media (max-width: 600px) {
+  .franja-beneficios__grid {
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+  }
+  .franja-beneficios__item {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

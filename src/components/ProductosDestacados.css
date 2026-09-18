@@ -1,0 +1,30 @@
+.productos-destacados {
+  padding: 0 24px var(--espaciado-seccion);
+}
+
+.productos-destacados h2 {
+  margin-bottom: 20px;
+}
+
+.productos-destacados__estado {
+  color: var(--color-texto-secundario);
+}
+
+.productos-destacados__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .productos-destacados__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .productos-destacados__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}

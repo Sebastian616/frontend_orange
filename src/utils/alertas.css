@@ -1,0 +1,40 @@
+@import '../styles/tokens.css';
+
+.orange-alerta {
+  font-family: var(--font-texto);
+  border-radius: var(--radio-borde);
+}
+
+.orange-alerta__titulo {
+  font-family: var(--font-titulos);
+  font-weight: 700;
+}
+
+.orange-alerta__boton {
+  font-family: var(--font-texto);
+  font-weight: 600;
+  font-size: var(--texto-normal);
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  margin: 0 6px;
+}
+
+.orange-alerta__boton--primario {
+  background: var(--color-marron-oscuro);
+  color: #fff;
+}
+
+.orange-alerta__boton--primario:hover {
+  background: #74491f;
+}
+
+.orange-alerta__boton--secundario {
+  background: transparent;
+  color: var(--color-texto-secundario);
+  border: 1px solid var(--color-borde);
+}
+
+.orange-alerta__boton--secundario:hover {
+  background: var(--color-verde-claro);
+}

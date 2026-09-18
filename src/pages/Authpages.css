@@ -1,0 +1,82 @@
+.auth-page {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-verde-claro);
+  padding: 40px 20px;
+}
+
+.auth-page__tarjeta {
+  background: #fff;
+  border-radius: var(--radio-borde);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.auth-page__tarjeta h1 {
+  margin-bottom: 6px;
+}
+
+.auth-page__subtitulo {
+  color: var(--color-texto-secundario);
+  margin: 0 0 24px;
+}
+
+.auth-page__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-page__formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--texto-normal);
+  font-weight: 500;
+}
+
+.auth-page__formulario input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+}
+
+.auth-page__formulario input:focus {
+  outline: none;
+  border-color: var(--color-marron-oscuro);
+}
+
+.auth-page__formulario button {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.auth-page__error {
+  background: #FBEAEA;
+  color: #A33A3A;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: var(--texto-normal);
+  margin: 0;
+}
+
+.auth-page__enlaces {
+  margin-top: 20px;
+  text-align: center;
+  font-size: var(--texto-normal);
+  color: var(--color-texto-secundario);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-page__enlaces a {
+  color: var(--color-marron-oscuro);
+  font-weight: 600;
+}
