@@ -1,0 +1,139 @@
+.direcciones {
+  padding: 32px 24px 64px;
+}
+
+.direcciones h1 {
+  margin-bottom: 24px;
+}
+
+.direcciones__layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.direcciones__formulario {
+  background: var(--color-verde-claro);
+  border-radius: var(--radio-borde);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 90px;
+}
+
+.direcciones__formulario h2 {
+  font-family: var(--font-texto);
+  font-size: var(--texto-grande);
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.direcciones__formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--texto-normal);
+  font-weight: 500;
+}
+
+.direcciones__formulario input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+}
+
+.direcciones__formulario input:focus {
+  outline: none;
+  border-color: var(--color-marron-oscuro);
+}
+
+.direcciones__acciones-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.direcciones__acciones-form button {
+  flex: 1;
+}
+
+.direcciones__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.direcciones__estado {
+  color: var(--color-texto-secundario);
+}
+
+.direcciones__vacio {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--color-texto-secundario);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.direcciones__tarjeta {
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.direcciones__tarjeta-info p {
+  margin: 0 0 2px;
+  font-size: var(--texto-normal);
+  color: var(--color-texto-secundario);
+}
+
+.direcciones__alias {
+  font-weight: 700;
+  color: var(--color-texto-principal) !important;
+  margin-bottom: 4px !important;
+}
+
+.direcciones__referencia {
+  font-style: italic;
+}
+
+.direcciones__tarjeta-acciones {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.direcciones__tarjeta-acciones button {
+  background: var(--color-verde-claro);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-texto-principal);
+}
+
+.direcciones__tarjeta-acciones button:hover {
+  color: var(--color-marron-oscuro);
+}
+
+@media (max-width: 800px) {
+  .direcciones__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .direcciones__formulario {
+    position: static;
+  }
+}

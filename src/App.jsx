@@ -1,19 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritosProvider } from './context/favoritosContext';
 import { CartProvider } from './context/CartContext';
+import RutaAdmin from './components/RutaAdmin';
 import Home from './pages/Home';
 import Tienda from './pages/Tienda';
 import ProductoDetalle from './pages/productodetalle';
 import Carrito from './pages/Carrito';
 import MisPedidos from './pages/MisPedidos';
+import Direcciones from './pages/Direcciones';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminProductos from './pages/admin/AdminProductos';
+import AdminPedidos from './pages/admin/AdminPedidos';
 
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <FavoritosProvider>
           <CartProvider>
             <Routes>
@@ -22,12 +27,19 @@ export default function App() {
               <Route path="/productos/:id" element={<ProductoDetalle />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/pedidos" element={<MisPedidos />} />
+              <Route path="/direcciones" element={<Direcciones />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
+
+              <Route path="/admin" element={<RutaAdmin><AdminLayout /></RutaAdmin>}>
+                <Route index element={<Navigate to="productos" replace />} />
+                <Route path="productos" element={<AdminProductos />} />
+                <Route path="pedidos" element={<AdminPedidos />} />
+              </Route>
             </Routes>
           </CartProvider>
         </FavoritosProvider>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }

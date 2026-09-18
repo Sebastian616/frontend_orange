@@ -15,3 +15,22 @@ export function obtenerMisPedidos(token) {
 export function obtenerHistorialPedido(pedidoId, token) {
   return request(`/pedidos/${pedidoId}/historial`, { token });
 }
+
+// --- Administración (requieren token de admin) ---
+
+export function obtenerTodosLosPedidos(token, estado) {
+  const query = estado ? `?estado=${estado}` : '';
+  return request(`/pedidos/admin/todos${query}`, { token });
+}
+
+export function obtenerPedidoPorId(pedidoId, token) {
+  return request(`/pedidos/${pedidoId}`, { token });
+}
+
+export function cambiarEstadoPedido(pedidoId, { estado, comentario }, token) {
+  return request(`/pedidos/${pedidoId}/estado`, {
+    method: 'PATCH',
+    body: { estado, comentario },
+    token,
+  });
+}

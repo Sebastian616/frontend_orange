@@ -77,11 +77,70 @@
   font-weight: 600;
 }
 
-.navbar__saludo {
+.navbar__cuenta {
+  position: relative;
+}
+
+.navbar__cuenta-boton {
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: var(--texto-normal);
   font-weight: 500;
   color: var(--color-texto-principal);
   white-space: nowrap;
+  padding: 4px;
+}
+
+.navbar__cuenta-boton svg {
+  color: var(--color-marron-oscuro);
+  stroke-width: 2.2px;
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.navbar__cuenta-flecha--abierta {
+  transform: rotate(180deg);
+}
+
+.navbar__cuenta-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  box-shadow: var(--sombra-tarjeta);
+  min-width: 190px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+}
+
+.navbar__cuenta-menu a,
+.navbar__cuenta-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: var(--texto-normal);
+  color: var(--color-texto-principal);
+  background: none;
+  text-align: left;
+  width: 100%;
+}
+
+.navbar__cuenta-menu a:hover,
+.navbar__cuenta-menu button:hover {
+  background: var(--color-verde-claro);
+}
+
+.navbar__cuenta-menu svg {
+  color: var(--color-texto-secundario);
+  flex-shrink: 0;
 }
 
 .navbar__hamburguesa {
@@ -93,7 +152,7 @@
 }
 
 @media (max-width: 860px) {
-  .navbar__saludo {
+  .navbar__cuenta-boton span {
     display: none;
   }
 

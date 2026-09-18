@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut } from 'lucide-react';
+import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
@@ -14,11 +14,25 @@ const ENLACES = [
 
 export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [cuentaAbierta, setCuentaAbierta] = useState(false);
   const { estaAutenticado, usuario, logout } = useAuth();
   const { cantidadTotal } = useCart();
   const navigate = useNavigate();
+  const cuentaRef = useRef(null);
+
+  // Cierra el menú de cuenta si haces clic fuera de él
+  useEffect(() => {
+    function manejarClicFuera(e) {
+      if (cuentaRef.current && !cuentaRef.current.contains(e.target)) {
+        setCuentaAbierta(false);
+      }
+    }
+    document.addEventListener('mousedown', manejarClicFuera);
+    return () => document.removeEventListener('mousedown', manejarClicFuera);
+  }, []);
 
   function manejarLogout() {
+    setCuentaAbierta(false);
     logout();
     navigate('/');
   }
@@ -57,14 +71,40 @@ export default function Navbar() {
           </button>
 
           {estaAutenticado ? (
-            <>
-              <Link to="/pedidos" className="navbar__saludo" title={usuario?.correo}>
-                Hola, {usuario?.nombre?.split(' ')[0]}
-              </Link>
-              <button className="navbar__icono" aria-label="Cerrar sesión" onClick={manejarLogout}>
-                <LogOut size={20} strokeWidth={1.8} />
+            <div className="navbar__cuenta" ref={cuentaRef}>
+              <button
+                className="navbar__cuenta-boton"
+                onClick={() => setCuentaAbierta((v) => !v)}
+                aria-expanded={cuentaAbierta}
+                aria-haspopup="true"
+              >
+                <span title={usuario?.correo}>Hola, {usuario?.nombre?.split(' ')[0]}</span>
+                <ChevronDown size={18} className={cuentaAbierta ? 'navbar__cuenta-flecha--abierta' : ''} />
               </button>
-            </>
+
+              {cuentaAbierta && (
+                <div className="navbar__cuenta-menu">
+                  <Link to="/pedidos" onClick={() => setCuentaAbierta(false)}>
+                    <Package size={16} strokeWidth={1.8} />
+                    Mis pedidos
+                  </Link>
+                  <Link to="/direcciones" onClick={() => setCuentaAbierta(false)}>
+                    <MapPin size={16} strokeWidth={1.8} />
+                    Direcciones
+                  </Link>
+                  {usuario?.rol === 'ADMIN' && (
+                    <Link to="/admin/productos" onClick={() => setCuentaAbierta(false)}>
+                      <Shield size={16} strokeWidth={1.8} />
+                      Panel admin
+                    </Link>
+                  )}
+                  <button onClick={manejarLogout}>
+                    <LogOut size={16} strokeWidth={1.8} />
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link to="/login" className="navbar__icono" aria-label="Iniciar sesión">
               <User size={20} strokeWidth={1.8} />

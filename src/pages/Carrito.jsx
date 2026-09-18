@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Trash2, ShoppingBag } from 'lucide-react';
+import { Trash2, ShoppingBag, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { crearPedido } from '../api/pedidos';
-import { alertaError } from '../utils/alertas';
+import { obtenerDirecciones } from '../api/direcciones';
+import { alertaError, alertaAviso } from '../utils/alertas';
 import './Carrito.css';
 
 function formatearPrecio(valor) {
@@ -25,12 +26,34 @@ export default function Carrito() {
 
   const [procesando, setProcesando] = useState(false);
   const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
+  const [direcciones, setDirecciones] = useState([]);
+  const [direccionId, setDireccionId] = useState('');
+  const [cargandoDirecciones, setCargandoDirecciones] = useState(true);
 
   const total = items.length > 0 ? subtotal + COSTO_ENVIO : 0;
+
+  useEffect(() => {
+    if (!estaAutenticado) {
+      setCargandoDirecciones(false);
+      return;
+    }
+    obtenerDirecciones(token)
+      .then((data) => {
+        setDirecciones(data);
+        if (data.length > 0) setDireccionId(data[0].id);
+      })
+      .catch(() => setDirecciones([]))
+      .finally(() => setCargandoDirecciones(false));
+  }, [estaAutenticado, token]);
 
   async function manejarCheckout() {
     if (!estaAutenticado) {
       navigate('/login', { state: { from: '/carrito' } });
+      return;
+    }
+
+    if (!direccionId) {
+      alertaAviso('Selecciona (o agrega) una dirección de envío antes de continuar');
       return;
     }
 
@@ -39,6 +62,7 @@ export default function Carrito() {
     try {
       const pedido = await crearPedido(
         {
+          direccionId,
           items: items.map((i) => ({
             productoId: i.productoId,
             tallaId: i.tallaId,
@@ -133,6 +157,37 @@ export default function Carrito() {
 
             <aside className="carrito__resumen">
               <h2>Resumen</h2>
+
+              {estaAutenticado && (
+                <div className="carrito__direccion">
+                  <h3><MapPin size={16} strokeWidth={1.8} /> Dirección de envío</h3>
+
+                  {cargandoDirecciones && <p className="carrito__direccion-estado">Cargando...</p>}
+
+                  {!cargandoDirecciones && direcciones.length === 0 && (
+                    <p className="carrito__direccion-vacio">
+                      No tienes direcciones guardadas.{' '}
+                      <Link to="/direcciones" state={{ from: '/carrito' }}>Agregar una</Link>
+                    </p>
+                  )}
+
+                  {!cargandoDirecciones && direcciones.length > 0 && (
+                    <>
+                      <select value={direccionId} onChange={(e) => setDireccionId(e.target.value)}>
+                        {direcciones.map((d) => (
+                          <option key={d.id} value={d.id}>
+                            {d.alias} — {d.direccion}, {d.ciudad}
+                          </option>
+                        ))}
+                      </select>
+                      <Link to="/direcciones" className="carrito__direccion-editar" state={{ from: '/carrito' }}>
+                        Gestionar direcciones
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+
               <div className="carrito__resumen-linea">
                 <span>Subtotal</span>
                 <span>{formatearPrecio(subtotal)}</span>

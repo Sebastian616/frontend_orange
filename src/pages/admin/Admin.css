@@ -1,0 +1,230 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+  padding: 32px 24px 64px;
+  align-items: start;
+}
+
+.admin-layout__sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+.admin-layout__sidebar h2 {
+  font-family: var(--font-texto);
+  font-size: var(--texto-grande);
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.admin-layout__sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-layout__sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: var(--color-texto-principal);
+}
+
+.admin-layout__sidebar nav a:hover {
+  background: var(--color-verde-claro);
+}
+
+.admin-layout__activo {
+  background: var(--color-marron-oscuro) !important;
+  color: #fff !important;
+}
+
+.admin-layout__activo svg {
+  color: #fff !important;
+}
+
+@media (max-width: 800px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-layout__sidebar {
+    position: static;
+  }
+
+  .admin-layout__sidebar nav {
+    flex-direction: row;
+  }
+}
+
+/* --- Cabecera común de las subpáginas (título + botón de acción) --- */
+.admin-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-cabecera h1 {
+  margin: 0;
+}
+
+/* --- Tabla genérica --- */
+.admin-tabla-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--texto-normal);
+}
+
+.admin-tabla th {
+  text-align: left;
+  background: var(--color-verde-claro);
+  padding: 10px 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-tabla td {
+  padding: 10px 14px;
+  border-top: 1px solid var(--color-borde);
+  vertical-align: middle;
+}
+
+.admin-tabla tr.admin-tabla__inactivo td {
+  opacity: 0.5;
+}
+
+.admin-tabla__acciones {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.admin-tabla__acciones button {
+  background: var(--color-verde-claro);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-texto-principal);
+}
+
+.admin-tabla__acciones button:hover {
+  color: var(--color-marron-oscuro);
+}
+
+.admin-badge {
+  font-size: var(--texto-pequeno);
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.admin-badge--activo {
+  background: var(--color-verde-claro);
+  color: var(--color-marron-oscuro);
+}
+
+.admin-badge--inactivo {
+  background: #EDEDE8;
+  color: var(--color-texto-secundario);
+}
+
+.admin-badge--cancelado {
+  background: #FBEAEA;
+  color: #A33A3A;
+}
+
+/* --- Formulario en tarjeta (crear/editar) --- */
+.admin-form-tarjeta {
+  background: var(--color-verde-claro);
+  border-radius: var(--radio-borde);
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-form-tarjeta h2 {
+  font-family: var(--font-texto);
+  font-size: var(--texto-grande);
+  font-weight: 600;
+  margin: 0;
+}
+
+.admin-form-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.admin-form-tarjeta label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--texto-normal);
+  font-weight: 500;
+}
+
+.admin-form-tarjeta input,
+.admin-form-tarjeta select,
+.admin-form-tarjeta textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+  background: #fff;
+}
+
+.admin-form-tarjeta textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.admin-form-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.admin-tallas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.admin-tallas-grid label {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  gap: 4px;
+}
+
+.admin-tallas-grid input {
+  text-align: center;
+  padding: 6px;
+}
+
+@media (max-width: 700px) {
+  .admin-form-fila {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Package } from 'lucide-react';
+import { ChevronDown, Package, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import { obtenerMisPedidos, obtenerHistorialPedido } from '../api/pedidos';
+import { obtenerDirecciones } from '../api/direcciones';
 import { toastError } from '../utils/alertas';
 import './MisPedidos.css';
 
@@ -33,6 +34,7 @@ export default function MisPedidos() {
   const navigate = useNavigate();
 
   const [pedidos, setPedidos] = useState([]);
+  const [direccionesPorId, setDireccionesPorId] = useState({});
   const [cargando, setCargando] = useState(true);
   const [pedidoAbierto, setPedidoAbierto] = useState(null);
   const [historiales, setHistoriales] = useState({});
@@ -43,8 +45,13 @@ export default function MisPedidos() {
       return;
     }
 
-    obtenerMisPedidos(token)
-      .then(setPedidos)
+    Promise.all([obtenerMisPedidos(token), obtenerDirecciones(token).catch(() => [])])
+      .then(([listaPedidos, listaDirecciones]) => {
+        setPedidos(listaPedidos);
+        const mapa = {};
+        listaDirecciones.forEach((d) => { mapa[d.id] = d; });
+        setDireccionesPorId(mapa);
+      })
       .catch(() => toastError('No pudimos cargar tus pedidos'))
       .finally(() => setCargando(false));
   }, [estaAutenticado, token, navigate]);
@@ -81,6 +88,7 @@ export default function MisPedidos() {
             const abierto = pedidoAbierto === pedido.id;
             const historial = historiales[pedido.id];
             const estadoClase = pedido.estado === 'CANCELADO' ? 'mis-pedidos__badge--cancelado' : '';
+            const direccion = pedido.direccion_id ? direccionesPorId[pedido.direccion_id] : null;
 
             return (
               <li key={pedido.id} className="mis-pedidos__pedido">
@@ -111,6 +119,23 @@ export default function MisPedidos() {
                       <div className="mis-pedidos__resumen-costos">
                         <div><span>Subtotal</span><span>{formatearPrecio(pedido.subtotal)}</span></div>
                         <div><span>Envío</span><span>{formatearPrecio(pedido.costo_envio)}</span></div>
+                      </div>
+
+                      <div className="mis-pedidos__direccion">
+                        <h3><MapPin size={15} strokeWidth={1.8} /> Dirección de envío</h3>
+                        {!pedido.direccion_id && (
+                          <p className="mis-pedidos__direccion-vacia">Sin dirección asociada</p>
+                        )}
+                        {pedido.direccion_id && !direccion && (
+                          <p className="mis-pedidos__direccion-vacia">Dirección ya no disponible</p>
+                        )}
+                        {direccion && (
+                          <p>
+                            <strong>{direccion.alias}</strong> — {direccion.direccion}, {direccion.ciudad}
+                            {direccion.departamento ? `, ${direccion.departamento}` : ''}
+                            {direccion.referencia && <><br />{direccion.referencia}</>}
+                          </p>
+                        )}
                       </div>
                     </div>
 
