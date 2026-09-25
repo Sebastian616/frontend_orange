@@ -17,6 +17,8 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminProductos from './pages/admin/AdminProductos';
 import AdminPedidos from './pages/admin/AdminPedidos';
 
+//exports
+
 export default function App() {
   return (
     <AuthProvider>
