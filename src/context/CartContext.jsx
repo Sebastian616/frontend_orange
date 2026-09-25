@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-
+//basico
 const CartContext = createContext(null);
 const CLAVE_STORAGE = 'orange_carrito';
 
