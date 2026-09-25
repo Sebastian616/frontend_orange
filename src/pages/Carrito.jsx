@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Trash2, ShoppingBag, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/Authcontext';
+import { useAuth } from '../context/AuthContext';
 import { crearPedido } from '../api/pedidos';
 import { obtenerDirecciones } from '../api/direcciones';
 import { alertaError, alertaAviso } from '../utils/alertas';

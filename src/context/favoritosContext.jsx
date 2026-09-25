@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { obtenerFavoritos, agregarFavorito, quitarFavorito } from '../api/favoritos';
-import { useAuth } from './Authcontext';
+import { useAuth } from './AuthContext';
 import { toastError } from '../utils/alertas';
 
 const FavoritosContext = createContext(null);

@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/Authcontext';
+import { useAuth } from '../context/AuthContext';
 
 // Envuelve rutas que solo debe poder ver un usuario con rol ADMIN.
 // Si no hay sesión, manda a login. Si hay sesión pero no es admin,
