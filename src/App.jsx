@@ -1,16 +1,18 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import { FavoritosProvider } from './context/favoritosContext';
+import { FavoritosProvider } from './context/FavoritosContext';
 import { CartProvider } from './context/CartContext';
 import RutaAdmin from './components/RutaAdmin';
 import Home from './pages/Home';
 import Tienda from './pages/Tienda';
-import ProductoDetalle from './pages/productodetalle';
+import ProductoDetalle from './pages/ProductoDetalle';
 import Carrito from './pages/Carrito';
 import MisPedidos from './pages/MisPedidos';
 import Direcciones from './pages/Direcciones';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
+import OlvidePassword from './pages/OlvidePassword';
+import ResetPassword from './pages/ResetPassword';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminProductos from './pages/admin/AdminProductos';
 import AdminPedidos from './pages/admin/AdminPedidos';
@@ -30,6 +32,8 @@ export default function App() {
               <Route path="/direcciones" element={<Direcciones />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
+              <Route path="/olvide-password" element={<OlvidePassword />} />
+              <Route path="/resetear-password" element={<ResetPassword />} />
 
               <Route path="/admin" element={<RutaAdmin><AdminLayout /></RutaAdmin>}>
                 <Route index element={<Navigate to="productos" replace />} />

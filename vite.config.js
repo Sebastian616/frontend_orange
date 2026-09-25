@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/frontend_orange/',
+  base: '/', // Apunta a la raíz del dominio personalizado
   server: {
     port: 5173,
   },
