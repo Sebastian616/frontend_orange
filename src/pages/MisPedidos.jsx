@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Package, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/Authcontext';
 import { obtenerMisPedidos, obtenerHistorialPedido } from '../api/pedidos';
 import { obtenerDirecciones } from '../api/direcciones';
 import { toastError } from '../utils/alertas';

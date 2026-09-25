@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import { obtenerProductoPorId } from '../api/productos';
 import { obtenerResenas, obtenerResumenResenas } from '../api/resenas';
 import { alertaAviso, toastExito } from '../utils/alertas';
-import { useFavoritos } from '../context/favoritosContext';
+import { useFavoritos } from '../context/FavoritosContext';
 import { useCart } from '../context/CartContext';
 import './ProductoDetalle.css';
 

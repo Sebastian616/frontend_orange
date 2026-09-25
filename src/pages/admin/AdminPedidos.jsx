@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/Authcontext';
 import { obtenerTodosLosPedidos, obtenerPedidoPorId, cambiarEstadoPedido } from '../../api/pedidos';
 import { alertaError, alertaConfirmar, toastExito } from '../../utils/alertas';
 import '../MisPedidos.css';

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ImageOff, Heart, ShoppingCart } from 'lucide-react';
-import { useFavoritos } from '../context/favoritoscontext';
+import { useFavoritos } from '../context/FavoritosContext';
 import { useCart } from '../context/CartContext';
 import { toastExito } from '../utils/alertas';
 import './TarjetaProducto.css';

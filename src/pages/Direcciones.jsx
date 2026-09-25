@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil, Trash2, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/Authcontext';
 import { obtenerDirecciones, crearDireccion, actualizarDireccion, eliminarDireccion } from '../api/direcciones';
 import { alertaConfirmar, alertaError, toastExito } from '../utils/alertas';
 import './Direcciones.css';
