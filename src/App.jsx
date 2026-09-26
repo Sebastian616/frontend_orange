@@ -16,7 +16,6 @@ import ResetPassword from './pages/ResetPassword';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminProductos from './pages/admin/AdminProductos';
 import AdminPedidos from './pages/admin/AdminPedidos';
-import ResetPassword from './pages/ResetPassword';
 
 //exports
 
