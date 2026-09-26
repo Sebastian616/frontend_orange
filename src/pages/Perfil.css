@@ -1,0 +1,111 @@
+.perfil {
+  padding: 32px 24px 64px;
+}
+
+.perfil__estado {
+  padding: 60px 24px;
+  color: var(--color-texto-secundario);
+}
+
+.perfil h1 {
+  margin-bottom: 24px;
+}
+
+.perfil__layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+.perfil__formulario,
+.perfil__tarjeta {
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: 24px;
+}
+
+.perfil__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.perfil__formulario h2,
+.perfil__tarjeta h2 {
+  font-family: var(--font-texto);
+  font-size: var(--texto-grande);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.perfil__formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--texto-normal);
+  font-weight: 500;
+}
+
+.perfil__formulario input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+}
+
+.perfil__formulario input:disabled {
+  background: #F5F5F0;
+  color: var(--color-texto-secundario);
+}
+
+.perfil__formulario input:focus:not(:disabled) {
+  outline: none;
+  border-color: var(--color-marron-oscuro);
+}
+
+.perfil__formulario button {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+.perfil__lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.perfil__verificado,
+.perfil__no-verificado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--texto-normal);
+  margin: 0 0 12px;
+}
+
+.perfil__verificado {
+  color: var(--color-verde-oliva);
+}
+
+.perfil__no-verificado {
+  color: #A36B3A;
+}
+
+.perfil__tarjeta button {
+  width: 100%;
+}
+
+.perfil__dato {
+  font-size: var(--texto-normal);
+  color: var(--color-texto-secundario);
+  margin: 0 0 8px;
+}
+
+@media (max-width: 800px) {
+  .perfil__layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -9,6 +9,7 @@ import ProductoDetalle from './pages/ProductoDetalle';
 import Carrito from './pages/Carrito';
 import MisPedidos from './pages/MisPedidos';
 import Direcciones from './pages/Direcciones';
+import Perfil from './pages/Perfil';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import OlvidePassword from './pages/OlvidePassword';
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/pedidos" element={<MisPedidos />} />
               <Route path="/direcciones" element={<Direcciones />} />
+              <Route path="/perfil" element={<Perfil />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
               <Route path="/olvide-password" element={<OlvidePassword />} />

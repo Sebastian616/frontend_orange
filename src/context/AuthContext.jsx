@@ -39,6 +39,17 @@ export function AuthProvider({ children }) {
     setSesion({ usuario: null, token: null });
   }
 
+  // Actualiza los datos del usuario en sesión (ej. tras editar el perfil)
+  // sin necesidad de volver a loguearse.
+  function actualizarUsuario(datosParciales) {
+    setSesion((prev) => {
+      const nuevoUsuario = { ...prev.usuario, ...datosParciales };
+      const nueva = { ...prev, usuario: nuevoUsuario };
+      localStorage.setItem(CLAVE_STORAGE, JSON.stringify(nueva));
+      return nueva;
+    });
+  }
+
   const valor = {
     usuario: sesion.usuario,
     token: sesion.token,
@@ -46,6 +57,7 @@ export function AuthProvider({ children }) {
     login,
     registrar,
     logout,
+    actualizarUsuario,
   };
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>;

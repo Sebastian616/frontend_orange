@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield } from 'lucide-react';
+import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
@@ -84,6 +84,10 @@ export default function Navbar() {
 
               {cuentaAbierta && (
                 <div className="navbar__cuenta-menu">
+                  <Link to="/perfil" onClick={() => setCuentaAbierta(false)}>
+                    <UserCircle size={16} strokeWidth={1.8} />
+                    Mi perfil
+                  </Link>
                   <Link to="/pedidos" onClick={() => setCuentaAbierta(false)}>
                     <Package size={16} strokeWidth={1.8} />
                     Mis pedidos
