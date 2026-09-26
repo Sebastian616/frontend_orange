@@ -17,8 +17,6 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminProductos from './pages/admin/AdminProductos';
 import AdminPedidos from './pages/admin/AdminPedidos';
 
-//exports
-
 export default function App() {
   return (
     <AuthProvider>
@@ -36,7 +34,6 @@ export default function App() {
               <Route path="/registro" element={<Registro />} />
               <Route path="/olvide-password" element={<OlvidePassword />} />
               <Route path="/resetear-password" element={<ResetPassword />} />
-              <Route path="/resetear-password" element={<ResetearPassword />} />
 
               <Route path="/admin" element={<RutaAdmin><AdminLayout /></RutaAdmin>}>
                 <Route index element={<Navigate to="productos" replace />} />
