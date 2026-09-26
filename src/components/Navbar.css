@@ -104,6 +104,48 @@
   transform: rotate(180deg);
 }
 
+.navbar__busqueda {
+  position: relative;
+}
+
+.navbar__busqueda-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--color-borde);
+  border-radius: 999px;
+  box-shadow: var(--sombra-tarjeta);
+  padding: 6px 6px 6px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 60;
+  width: min(280px, 80vw);
+}
+
+.navbar__busqueda-panel input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+  color: var(--color-texto-principal);
+  min-width: 0;
+}
+
+.navbar__busqueda-panel button {
+  background: var(--color-marron-oscuro);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .navbar__cuenta-menu {
   position: absolute;
   top: calc(100% + 10px);

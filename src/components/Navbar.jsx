@@ -15,21 +15,42 @@ const ENLACES = [
 export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [cuentaAbierta, setCuentaAbierta] = useState(false);
+  const [busquedaAbierta, setBusquedaAbierta] = useState(false);
+  const [textoBusqueda, setTextoBusqueda] = useState('');
   const { estaAutenticado, usuario, logout } = useAuth();
   const { cantidadTotal } = useCart();
   const navigate = useNavigate();
   const cuentaRef = useRef(null);
+  const busquedaRef = useRef(null);
+  const inputBusquedaRef = useRef(null);
 
-  // Cierra el menú de cuenta si haces clic fuera de él
+  // Cierra el menú de cuenta o el buscador si haces clic fuera de ellos
   useEffect(() => {
     function manejarClicFuera(e) {
       if (cuentaRef.current && !cuentaRef.current.contains(e.target)) {
         setCuentaAbierta(false);
       }
+      if (busquedaRef.current && !busquedaRef.current.contains(e.target)) {
+        setBusquedaAbierta(false);
+      }
     }
     document.addEventListener('mousedown', manejarClicFuera);
     return () => document.removeEventListener('mousedown', manejarClicFuera);
   }, []);
+
+  // Cuando se abre el buscador, le pone el foco al input automáticamente
+  useEffect(() => {
+    if (busquedaAbierta) inputBusquedaRef.current?.focus();
+  }, [busquedaAbierta]);
+
+  function manejarBuscar(e) {
+    e.preventDefault();
+    const texto = textoBusqueda.trim();
+    if (!texto) return;
+    navigate(`/tienda?q=${encodeURIComponent(texto)}`);
+    setBusquedaAbierta(false);
+    setTextoBusqueda('');
+  }
 
   function manejarLogout() {
     setCuentaAbierta(false);
@@ -63,9 +84,32 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar__acciones">
-          <button className="navbar__icono" aria-label="Buscar">
-            <Search size={20} strokeWidth={1.8} />
-          </button>
+          <div className="navbar__busqueda" ref={busquedaRef}>
+            <button
+              className="navbar__icono"
+              aria-label={busquedaAbierta ? 'Cerrar búsqueda' : 'Buscar'}
+              aria-expanded={busquedaAbierta}
+              onClick={() => setBusquedaAbierta((v) => !v)}
+            >
+              {busquedaAbierta ? <X size={20} strokeWidth={1.8} /> : <Search size={20} strokeWidth={1.8} />}
+            </button>
+
+            {busquedaAbierta && (
+              <form className="navbar__busqueda-panel" onSubmit={manejarBuscar}>
+                <input
+                  ref={inputBusquedaRef}
+                  type="search"
+                  placeholder="Buscar productos..."
+                  value={textoBusqueda}
+                  onChange={(e) => setTextoBusqueda(e.target.value)}
+                />
+                <button type="submit" aria-label="Buscar">
+                  <Search size={16} strokeWidth={1.8} />
+                </button>
+              </form>
+            )}
+          </div>
+
           <button className="navbar__icono" aria-label="Favoritos">
             <Heart size={20} strokeWidth={1.8} />
           </button>

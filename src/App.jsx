@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Tienda from './pages/Tienda';
 import ProductoDetalle from './pages/ProductoDetalle';
 import Carrito from './pages/Carrito';
+import CategoriasPage from './pages/CategoriasPages';
 import MisPedidos from './pages/MisPedidos';
 import Direcciones from './pages/Direcciones';
 import Perfil from './pages/Perfil';
@@ -27,6 +28,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/tienda" element={<Tienda />} />
+              <Route path='/categorias' element={<CategoriasPage />} />
               <Route path="/productos/:id" element={<ProductoDetalle />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/pedidos" element={<MisPedidos />} />
