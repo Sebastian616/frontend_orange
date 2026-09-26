@@ -3,10 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Star, ImageOff } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { obtenerProductoPorId } from '../api/productos';
-import { obtenerResenas, obtenerResumenResenas } from '../api/resenas';
-import { alertaAviso, toastExito } from '../utils/alertas';
+import { obtenerResenas, obtenerResumenResenas, puedoResenarProducto, crearResena } from '../api/resenas';
+import { alertaAviso, alertaError, toastExito } from '../utils/alertas';
 import { useFavoritos } from '../context/FavoritosContext';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import './ProductoDetalle.css';
 
 function formatearPrecio(valor) {
@@ -21,6 +22,7 @@ export default function ProductoDetalle() {
   const { id } = useParams();
   const { esFavorito, toggleFavorito } = useFavoritos();
   const { agregarAlCarrito } = useCart();
+  const { estaAutenticado, token } = useAuth();
 
   const [producto, setProducto] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -32,6 +34,11 @@ export default function ProductoDetalle() {
 
   const [resenas, setResenas] = useState([]);
   const [resumen, setResumen] = useState({ total_resenas: 0, promedio: 0 });
+  const [puedeResenar, setPuedeResenar] = useState(false);
+  const [yaReseno, setYaReseno] = useState(false);
+  const [calificacionForm, setCalificacionForm] = useState(0);
+  const [comentarioForm, setComentarioForm] = useState('');
+  const [enviandoResena, setEnviandoResena] = useState(false);
 
   useEffect(() => {
     setCargando(true);
@@ -47,7 +54,46 @@ export default function ProductoDetalle() {
 
     obtenerResenas(id).then(setResenas).catch(() => setResenas([]));
     obtenerResumenResenas(id).then(setResumen).catch(() => {});
-  }, [id]);
+
+    if (estaAutenticado) {
+      puedoResenarProducto(id, token)
+        .then((data) => {
+          setPuedeResenar(data.puedeResenar);
+          setYaReseno(data.yaReseno);
+        })
+        .catch(() => { setPuedeResenar(false); setYaReseno(false); });
+    } else {
+      setPuedeResenar(false);
+      setYaReseno(false);
+    }
+    setCalificacionForm(0);
+    setComentarioForm('');
+  }, [id, estaAutenticado, token]);
+
+  async function manejarEnviarResena(e) {
+    e.preventDefault();
+    if (calificacionForm === 0) {
+      alertaAviso('Selecciona una calificación de 1 a 5 estrellas');
+      return;
+    }
+
+    setEnviandoResena(true);
+    try {
+      await crearResena(id, { calificacion: calificacionForm, comentario: comentarioForm }, token);
+      toastExito('¡Gracias por tu reseña!');
+      setYaReseno(true);
+      const [nuevasResenas, nuevoResumen] = await Promise.all([
+        obtenerResenas(id),
+        obtenerResumenResenas(id),
+      ]);
+      setResenas(nuevasResenas);
+      setResumen(nuevoResumen);
+    } catch (err) {
+      alertaError(err.message || 'No pudimos guardar tu reseña');
+    } finally {
+      setEnviandoResena(false);
+    }
+  }
 
   const tallaActual = producto?.tallas?.find((t) => t.talla_id === tallaSeleccionada);
   const stockDisponible = tallaActual?.stock ?? 0;
@@ -180,6 +226,42 @@ export default function ProductoDetalle() {
 
         <section className="producto-detalle__resenas">
           <h2>Reseñas {resumen.total_resenas > 0 && `(${resumen.total_resenas})`}</h2>
+
+          {puedeResenar && !yaReseno && (
+            <form className="producto-detalle__form-resena" onSubmit={manejarEnviarResena}>
+              <h3>Deja tu reseña</h3>
+              <div className="producto-detalle__estrellas-form" role="radiogroup" aria-label="Calificación">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    role="radio"
+                    aria-checked={calificacionForm === n}
+                    aria-label={`${n} estrella${n > 1 ? 's' : ''}`}
+                    onClick={() => setCalificacionForm(n)}
+                  >
+                    <Star
+                      size={26}
+                      strokeWidth={1.5}
+                      fill={n <= calificacionForm ? 'currentColor' : 'none'}
+                    />
+                  </button>
+                ))}
+              </div>
+              <textarea
+                placeholder="¿Qué te pareció el producto? (opcional)"
+                value={comentarioForm}
+                onChange={(e) => setComentarioForm(e.target.value)}
+              />
+              <button type="submit" className="boton-primario" disabled={enviandoResena}>
+                {enviandoResena ? 'Enviando...' : 'Publicar reseña'}
+              </button>
+            </form>
+          )}
+
+          {estaAutenticado && yaReseno && (
+            <p className="producto-detalle__estado-resenas">Ya dejaste tu reseña de este producto. ¡Gracias!</p>
+          )}
 
           {resenas.length === 0 && (
             <p className="producto-detalle__estado-resenas">Este producto todavía no tiene reseñas.</p>

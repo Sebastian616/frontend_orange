@@ -265,6 +265,49 @@
   color: var(--color-texto-secundario);
 }
 
+.producto-detalle__form-resena {
+  background: var(--color-verde-claro);
+  border-radius: var(--radio-borde);
+  padding: 20px;
+  margin-bottom: 24px;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.producto-detalle__form-resena h3 {
+  font-family: var(--font-texto);
+  font-size: var(--texto-grande);
+  font-weight: 600;
+  margin: 0;
+}
+
+.producto-detalle__estrellas-form {
+  display: flex;
+  gap: 4px;
+}
+
+.producto-detalle__estrellas-form button {
+  background: none;
+  color: var(--color-marron-oscuro);
+  padding: 2px;
+}
+
+.producto-detalle__form-resena textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde);
+  font-family: var(--font-texto);
+  font-size: var(--texto-normal);
+  min-height: 70px;
+  resize: vertical;
+}
+
+.producto-detalle__form-resena button[type="submit"] {
+  align-self: flex-start;
+}
+
 @media (max-width: 860px) {
   .producto-detalle {
     grid-template-columns: 1fr;
