@@ -20,7 +20,7 @@
 
 .perfil__formulario,
 .perfil__tarjeta {
-  background: #fff;
+  background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: var(--radio-borde);
   padding: 24px;

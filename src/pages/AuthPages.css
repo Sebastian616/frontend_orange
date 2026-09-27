@@ -8,7 +8,7 @@
 }
 
 .auth-page__tarjeta {
-  background: #fff;
+  background: var(--color-superficie);
   border-radius: var(--radio-borde);
   padding: 40px;
   width: 100%;

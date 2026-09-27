@@ -9,7 +9,7 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   display: flex;
   align-items: center;

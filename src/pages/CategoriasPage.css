@@ -45,7 +45,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-superficie);
   display: flex;
   align-items: center;
   justify-content: center;

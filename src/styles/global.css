@@ -11,6 +11,14 @@ body {
   background: var(--color-fondo);
   font-size: var(--texto-normal);
   line-height: var(--texto-normal-line);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+:root {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 h1, h2, h3 {
@@ -52,10 +60,10 @@ img {
   border-radius: 999px;
   font-weight: 600;
   font-size: var(--texto-normal);
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, filter 0.2s ease;
 }
 .boton-primario:hover {
-  background: #0F1519;
+  filter: brightness(0.85);
 }
 
 .boton-secundario {
@@ -65,10 +73,10 @@ img {
   border-radius: 999px;
   font-weight: 500;
   font-size: var(--texto-normal);
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, filter 0.2s ease;
 }
 .boton-secundario:hover {
-  background: #3D4750;
+  filter: brightness(0.85);
 }
 
 .visually-hidden {

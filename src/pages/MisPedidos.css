@@ -38,7 +38,7 @@
 
 .mis-pedidos__cabecera {
   width: 100%;
-  background: #fff;
+  background: var(--color-superficie);
   padding: 16px 20px;
   display: grid;
   grid-template-columns: 1fr auto auto auto;

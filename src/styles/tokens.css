@@ -11,6 +11,7 @@
   --color-fondo: #FFFFFF;
   --color-fondo-seccion: var(--color-verde-claro);
   --color-borde: #D8DCE1;
+  --color-superficie: #FFFFFF; /* fondo de tarjetas/paneles (antes "#fff" quemado a mano) */
 
   /* Tipografías */
   --font-titulos: 'Playfair Display', Georgia, serif;
@@ -43,4 +44,27 @@
     --h1-size: 26px;
     --h1-line: 32px;
   }
+}
+
+/* ---------------------------------------------------------------
+   MODO OSCURO
+   Se activa poniendo data-theme="dark" en <html> (lo hace ThemeContext).
+   Mismos nombres de variable, valores distintos — por eso el resto del
+   sitio no necesita cambios: ya usa var(--color-...) en todas partes.
+--------------------------------------------------------------- */
+:root[data-theme='dark'] {
+  --color-verde-claro: #1F242B;      /* fondos claros / secciones -> superficie oscura elevada */
+  --color-verde-menta: #262C34;      /* secciones secundarias */
+  --color-verde-oliva: #6B7785;      /* elementos (banners, botón secundario), un poco más claro para contraste */
+  --color-marron-grisaceo: #9BA3AE;  /* textos secundarios, más claro para legibilidad */
+  --color-marron-oscuro: #8FA6BA;    /* títulos / CTA -> acero claro (un oscuro puro no se vería) */
+
+  --color-texto-principal: #E8EAED;
+  --color-texto-secundario: var(--color-marron-grisaceo);
+  --color-fondo: #14171A;
+  --color-fondo-seccion: var(--color-verde-claro);
+  --color-borde: #2E343B;
+  --color-superficie: #1C2127;
+
+  --sombra-tarjeta: 0 2px 10px rgba(0, 0, 0, 0.4);
 }

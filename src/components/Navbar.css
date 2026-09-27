@@ -1,6 +1,6 @@
 .navbar {
   border-bottom: 1px solid var(--color-borde);
-  background: #fff;
+  background: var(--color-superficie);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -113,7 +113,7 @@
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  background: #fff;
+  background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: 999px;
   box-shadow: var(--sombra-tarjeta);
@@ -151,7 +151,7 @@
   position: absolute;
   top: calc(100% + 10px);
   right: 0;
-  background: #fff;
+  background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: 10px;
   box-shadow: var(--sombra-tarjeta);
@@ -209,7 +209,7 @@
     top: 72px;
     left: 0;
     right: 0;
-    background: #fff;
+    background: var(--color-superficie);
     flex-direction: column;
     padding: 16px 24px;
     gap: 18px;

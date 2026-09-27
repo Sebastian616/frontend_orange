@@ -1,4 +1,5 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritosProvider } from './context/FavoritosContext';
 import { CartProvider } from './context/CartContext';
@@ -23,6 +24,7 @@ import AdminPedidos from './pages/admin/AdminPedidos';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <HashRouter>
         <FavoritosProvider>
@@ -53,5 +55,6 @@ export default function App() {
         </FavoritosProvider>
       </HashRouter>
     </AuthProvider>
+    </ThemeProvider>
   );
 }

@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle } from 'lucide-react';
+import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useFavoritos } from '../context/FavoritosContext';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
 const ENLACES = [
@@ -21,6 +22,7 @@ export default function Navbar() {
   const { estaAutenticado, usuario, logout } = useAuth();
   const { cantidadTotal } = useCart();
   const { productosFavoritos } = useFavoritos();
+  const { tema, alternarTema } = useTheme();
   const navigate = useNavigate();
   const cuentaRef = useRef(null);
   const busquedaRef = useRef(null);
@@ -111,6 +113,14 @@ export default function Navbar() {
               </form>
             )}
           </div>
+
+          <button
+            className="navbar__icono"
+            onClick={alternarTema}
+            aria-label={tema === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          >
+            {tema === 'dark' ? <Sun size={20} strokeWidth={1.8} /> : <Moon size={20} strokeWidth={1.8} />}
+          </button>
 
           <Link to="/favoritos" className="navbar__icono navbar__favoritos" aria-label="Favoritos">
             <Heart size={20} strokeWidth={1.8} />

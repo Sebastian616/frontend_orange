@@ -190,7 +190,7 @@
   border: 1px solid var(--color-borde);
   font-family: var(--font-texto);
   font-size: var(--texto-normal);
-  background: #fff;
+  background: var(--color-superficie);
 }
 
 .admin-form-tarjeta textarea {
@@ -211,7 +211,7 @@
 }
 
 .admin-tallas-grid label {
-  background: #fff;
+  background: var(--color-superficie);
   border-radius: 8px;
   padding: 8px;
   text-align: center;

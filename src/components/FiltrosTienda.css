@@ -39,7 +39,7 @@
   border: 1px solid var(--color-borde);
   font-family: var(--font-texto);
   font-size: var(--texto-normal);
-  background: #fff;
+  background: var(--color-superficie);
 }
 
 .filtros-tienda__lista {
