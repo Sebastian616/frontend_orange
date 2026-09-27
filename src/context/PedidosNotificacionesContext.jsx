@@ -3,6 +3,8 @@ import { useAuth } from './AuthContext';
 import { obtenerTodosLosPedidos } from '../api/pedidos';
 import { toastExito } from '../utils/alertas';
 
+// Guarda este archivo en: src/context/PedidosNotificacionesContext.jsx
+
 const CLAVE_VISTOS = 'admin_pedidos_vistos';
 const INTERVALO_REVISION_MS = 20000; // cada 20 segundos
 

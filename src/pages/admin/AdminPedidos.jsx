@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, MessageCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePedidosNotificaciones } from '../../context/PedidosNotificacionesContext';
 import { obtenerTodosLosPedidos, obtenerPedidoPorId, cambiarEstadoPedido } from '../../api/pedidos';
@@ -14,6 +14,27 @@ function formatearPrecio(valor) {
 
 function formatearFecha(iso) {
   return new Date(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// AJUSTA AQUÍ el nombre real del campo si tu API usa otro distinto a estos
+function obtenerTelefono(pedido) {
+  return pedido.usuario_telefono || pedido.telefono || pedido.usuario_celular || pedido.celular || null;
+}
+
+function limpiarTelefono(telefono) {
+  if (!telefono) return null;
+  const soloDigitos = telefono.replace(/\D/g, '');
+  if (!soloDigitos) return null;
+  // Si parece un celular colombiano sin indicativo (10 dígitos, empieza en 3), le agregamos 57
+  if (soloDigitos.length === 10 && soloDigitos.startsWith('3')) return `57${soloDigitos}`;
+  return soloDigitos;
+}
+
+function generarEnlaceWhatsApp(pedido) {
+  const numero = limpiarTelefono(obtenerTelefono(pedido));
+  if (!numero) return null;
+  const mensaje = `Hola ${pedido.usuario_nombre}, te escribo sobre tu pedido #${pedido.id.slice(0, 8)}.`;
+  return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
 }
 
 const ESTADOS = ['PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION', 'ENVIADO', 'ENTREGADO', 'CANCELADO'];
@@ -75,6 +96,13 @@ export default function AdminPedidos() {
     }
   }
 
+  function manejarTeclaCabecera(e, pedidoId) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      alternarPedido(pedidoId);
+    }
+  }
+
   async function guardarNuevoEstado(pedido) {
     const nuevoEstado = nuevoEstadoPorPedido[pedido.id];
     if (!nuevoEstado || nuevoEstado === pedido.estado) return;
@@ -121,6 +149,7 @@ export default function AdminPedidos() {
             const detalle = detalles[pedido.id];
             const badgeClase = pedido.estado === 'CANCELADO' ? 'admin-badge--cancelado' : 'admin-badge--activo';
             const esNuevo = pedidosNuevos.some((p) => p.id === pedido.id);
+            const enlaceWhatsApp = generarEnlaceWhatsApp(pedido);
 
             return (
               <li
@@ -129,7 +158,13 @@ export default function AdminPedidos() {
                 className="mis-pedidos__pedido"
                 style={esNuevo ? { borderLeft: '4px solid #e11d48', background: '#fff1f2' } : undefined}
               >
-                <button className="mis-pedidos__cabecera" onClick={() => alternarPedido(pedido.id)}>
+                <div
+                  className="mis-pedidos__cabecera"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => alternarPedido(pedido.id)}
+                  onKeyDown={(e) => manejarTeclaCabecera(e, pedido.id)}
+                >
                   <div>
                     <p className="mis-pedidos__numero">
                       {esNuevo && (
@@ -137,12 +172,36 @@ export default function AdminPedidos() {
                       )}
                       #{pedido.id.slice(0, 8)} — {pedido.usuario_nombre}
                     </p>
-                    <p className="mis-pedidos__fecha">{pedido.usuario_correo} · {formatearFecha(pedido.created_at)}</p>
+                    <p className="mis-pedidos__fecha">
+                      {pedido.usuario_correo} · {formatearFecha(pedido.created_at)}
+                      {enlaceWhatsApp && (
+                        <>
+                          {' · '}
+                          <a
+                            href={enlaceWhatsApp}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 4,
+                              color: '#25D366',
+                              fontWeight: 600,
+                              textDecoration: 'none',
+                            }}
+                          >
+                            <MessageCircle size={14} />
+                            WhatsApp
+                          </a>
+                        </>
+                      )}
+                    </p>
                   </div>
                   <span className={`admin-badge ${badgeClase}`}>{pedido.estado}</span>
                   <p className="mis-pedidos__total">{formatearPrecio(pedido.total)}</p>
                   <ChevronDown size={20} className={abierto ? 'mis-pedidos__flecha--abierta' : ''} />
-                </button>
+                </div>
 
                 {abierto && (
                   <div className="mis-pedidos__detalle">
