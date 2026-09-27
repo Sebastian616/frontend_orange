@@ -7,7 +7,7 @@ const ENLACES_TIENDA = [
   { label: 'Tienda', href: '/tienda' },
   { label: 'Categorías', href: '/categorias' },
   { label: 'Nosotros', href: '/nosotros' },
-  { label: 'Contacto', href: '/contacto' },
+  { label: 'Contacto', href: 'https://wa.me/3114163706' },
 ];
 
 const ENLACES_CUENTA = [
