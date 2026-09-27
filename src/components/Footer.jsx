@@ -34,10 +34,10 @@ export default function Footer() {
               Tu mejor eleccion en ropa deportiva
             </p>
             <div className="footer__redes">
-              <a href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.facebook.com/orangestoreforyou/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <Facebook size={18} strokeWidth={1.8} />
               </a>
-              <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/orangestoreforyou" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                 <Instagram size={18} strokeWidth={1.8} />
               </a>
               <a href="#" aria-label="Twitter" target="_blank" rel="noopener noreferrer">

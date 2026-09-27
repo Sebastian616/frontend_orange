@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { usePedidosNotificaciones } from '../../context/PedidosNotificacionesContext';
 import { obtenerTodosLosPedidos, obtenerPedidoPorId, cambiarEstadoPedido } from '../../api/pedidos';
 import { alertaError, alertaConfirmar, toastExito } from '../../utils/alertas';
 import '../MisPedidos.css';
@@ -18,6 +20,8 @@ const ESTADOS = ['PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION', 'ENVIADO', 'ENTREG
 
 export default function AdminPedidos() {
   const { token } = useAuth();
+  const { pedidosNuevos, marcarComoVisto } = usePedidosNotificaciones();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [pedidos, setPedidos] = useState([]);
   const [filtroEstado, setFiltroEstado] = useState('');
@@ -39,9 +43,30 @@ export default function AdminPedidos() {
       .finally(() => setCargando(false));
   }
 
+  // Si llegamos desde la campana (AdminLayout) con ?pedido=ID, lo abrimos y resaltamos
+  useEffect(() => {
+    const pedidoId = searchParams.get('pedido');
+    if (!pedidoId || cargando) return;
+
+    setPedidoAbierto(pedidoId);
+    marcarComoVisto(pedidoId);
+    if (!detalles[pedidoId]) {
+      obtenerPedidoPorId(pedidoId, token)
+        .then((data) => setDetalles((prev) => ({ ...prev, [pedidoId]: data })))
+        .catch(() => alertaError('No pudimos cargar el detalle de este pedido'));
+    }
+    setTimeout(() => {
+      document.getElementById(`pedido-${pedidoId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
+
+    setSearchParams({}, { replace: true }); // limpia el query param para no reabrirlo al navegar
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cargando]);
+
   function alternarPedido(pedidoId) {
     const yaAbierto = pedidoAbierto === pedidoId;
     setPedidoAbierto(yaAbierto ? null : pedidoId);
+    marcarComoVisto(pedidoId);
 
     if (!yaAbierto && !detalles[pedidoId]) {
       obtenerPedidoPorId(pedidoId, token)
@@ -95,12 +120,23 @@ export default function AdminPedidos() {
             const abierto = pedidoAbierto === pedido.id;
             const detalle = detalles[pedido.id];
             const badgeClase = pedido.estado === 'CANCELADO' ? 'admin-badge--cancelado' : 'admin-badge--activo';
+            const esNuevo = pedidosNuevos.some((p) => p.id === pedido.id);
 
             return (
-              <li key={pedido.id} className="mis-pedidos__pedido">
+              <li
+                key={pedido.id}
+                id={`pedido-${pedido.id}`}
+                className="mis-pedidos__pedido"
+                style={esNuevo ? { borderLeft: '4px solid #e11d48', background: '#fff1f2' } : undefined}
+              >
                 <button className="mis-pedidos__cabecera" onClick={() => alternarPedido(pedido.id)}>
                   <div>
-                    <p className="mis-pedidos__numero">#{pedido.id.slice(0, 8)} — {pedido.usuario_nombre}</p>
+                    <p className="mis-pedidos__numero">
+                      {esNuevo && (
+                        <span style={{ color: '#e11d48', fontSize: 11, fontWeight: 700, marginRight: 6 }}>NUEVO</span>
+                      )}
+                      #{pedido.id.slice(0, 8)} — {pedido.usuario_nombre}
+                    </p>
                     <p className="mis-pedidos__fecha">{pedido.usuario_correo} · {formatearFecha(pedido.created_at)}</p>
                   </div>
                   <span className={`admin-badge ${badgeClase}`}>{pedido.estado}</span>
