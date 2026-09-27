@@ -34,7 +34,7 @@ jobs:
 
       - name: Build project
         env:
-          VITE_API_URL: https://ecommerce-orange-backend.onrender.com
+          VITE_API_URL: https://backend-orange.onrender.com
         run: npm run build
 
       - name: Setup Pages
