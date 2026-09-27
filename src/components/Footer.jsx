@@ -1,8 +1,7 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Citrus, Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
 import './Footer.css';
-import Logo from '../utils/logo.png'
+// import Logo from '../utils/logo.png'
 
 const ENLACES_TIENDA = [
   { label: 'Tienda', href: '/tienda' },
