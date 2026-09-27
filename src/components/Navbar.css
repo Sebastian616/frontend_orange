@@ -60,7 +60,8 @@
   color: var(--color-marron-oscuro);
 }
 
-.navbar__carrito {
+.navbar__carrito,
+.navbar__favoritos {
   position: relative;
 }
 

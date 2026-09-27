@@ -55,7 +55,7 @@ img {
   transition: background 0.2s ease;
 }
 .boton-primario:hover {
-  background: #74491f;
+  background: #0F1519;
 }
 
 .boton-secundario {
@@ -68,7 +68,7 @@ img {
   transition: background 0.2s ease;
 }
 .boton-secundario:hover {
-  background: #718862;
+  background: #3D4750;
 }
 
 .visually-hidden {

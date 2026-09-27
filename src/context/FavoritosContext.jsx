@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { obtenerFavoritos, agregarFavorito, quitarFavorito } from '../api/favoritos';
 import { useAuth } from './AuthContext';
@@ -11,20 +11,28 @@ export function FavoritosProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Set con los productoId que están marcados como favoritos
-  const [favoritos, setFavoritos] = useState(new Set());
+  // Guarda los productos completos (tu backend ya los devuelve así en
+  // GET /favoritos), no solo los ids — así la página de Favoritos no
+  // necesita hacer una llamada extra a la API.
+  const [productosFavoritos, setProductosFavoritos] = useState([]);
+  const [cargandoFavoritos, setCargandoFavoritos] = useState(true);
+
+  const favoritosIds = useMemo(
+    () => new Set(productosFavoritos.map((p) => p.id)),
+    [productosFavoritos]
+  );
 
   const cargarFavoritos = useCallback(() => {
     if (!estaAutenticado) {
-      setFavoritos(new Set());
+      setProductosFavoritos([]);
+      setCargandoFavoritos(false);
       return;
     }
+    setCargandoFavoritos(true);
     obtenerFavoritos(token)
-      .then((data) => {
-        const ids = (data || []).map((f) => f.id);
-        setFavoritos(new Set(ids));
-      })
-      .catch(() => setFavoritos(new Set()));
+      .then((data) => setProductosFavoritos(data || []))
+      .catch(() => setProductosFavoritos([]))
+      .finally(() => setCargandoFavoritos(false));
   }, [estaAutenticado, token]);
 
   useEffect(() => {
@@ -32,7 +40,7 @@ export function FavoritosProvider({ children }) {
   }, [cargarFavoritos]);
 
   function esFavorito(productoId) {
-    return favoritos.has(productoId);
+    return favoritosIds.has(productoId);
   }
 
   async function toggleFavorito(producto) {
@@ -42,15 +50,12 @@ export function FavoritosProvider({ children }) {
       return;
     }
 
-    const yaEsFavorito = favoritos.has(producto.id);
+    const yaEsFavorito = favoritosIds.has(producto.id);
 
     // Actualización optimista: se ve el cambio al instante en la UI
-    setFavoritos((prev) => {
-      const nuevo = new Set(prev);
-      if (yaEsFavorito) nuevo.delete(producto.id);
-      else nuevo.add(producto.id);
-      return nuevo;
-    });
+    setProductosFavoritos((prev) =>
+      yaEsFavorito ? prev.filter((p) => p.id !== producto.id) : [...prev, producto]
+    );
 
     try {
       if (yaEsFavorito) {
@@ -60,18 +65,24 @@ export function FavoritosProvider({ children }) {
       }
     } catch (err) {
       // Si falla, revierte el cambio optimista
-      setFavoritos((prev) => {
-        const nuevo = new Set(prev);
-        if (yaEsFavorito) nuevo.add(producto.id);
-        else nuevo.delete(producto.id);
-        return nuevo;
-      });
+      setProductosFavoritos((prev) =>
+        yaEsFavorito
+          ? [...prev, producto]
+          : prev.filter((p) => p.id !== producto.id)
+      );
       console.error('Error al actualizar favoritos:', err.message);
       toastError('No pudimos actualizar tus favoritos');
     }
   }
 
-  const valor = { favoritos, esFavorito, toggleFavorito, recargar: cargarFavoritos };
+  const valor = {
+    productosFavoritos,
+    cargandoFavoritos,
+    favoritosIds,
+    esFavorito,
+    toggleFavorito,
+    recargar: cargarFavoritos,
+  };
 
   return <FavoritosContext.Provider value={valor}>{children}</FavoritosContext.Provider>;
 }

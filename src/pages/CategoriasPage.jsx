@@ -4,7 +4,8 @@ import { Shirt, ShoppingBag, Layers, Wind, PackageSearch } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { obtenerCategorias } from '../api/categorias';
 import { obtenerProductos } from '../api/productos';
-import './CategoriasPages.css';
+import Footer from '../components/Footer';
+import './CategoriasPage.css';
 
 const ICONO_POR_CATEGORIA = {
   Leggings: Wind,
@@ -71,6 +72,7 @@ export default function CategoriasPage() {
           })}
         </div>
       </main>
+    <Footer />
     </>
   );
 }

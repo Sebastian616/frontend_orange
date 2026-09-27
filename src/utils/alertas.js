@@ -4,9 +4,9 @@ import Swal from 'sweetalert2';
 // tipografías (Playfair Display / Montserrat), paleta de colores y
 // botones redondeados iguales a los del resto del sitio.
 const alertaBase = Swal.mixin({
-  confirmButtonColor: '#8B5D33', // --color-marron-oscuro
-  cancelButtonColor: '#869D7A', // --color-verde-oliva
-  color: '#2B2B24', // --color-texto-principal
+  confirmButtonColor: '#1F2933', // --color-marron-oscuro (carbón)
+  cancelButtonColor: '#52606D', // --color-verde-oliva (acero)
+  color: '#1A1D21', // --color-texto-principal
   background: '#FFFFFF',
   confirmButtonText: 'Entendido',
   buttonsStyling: false,

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useFavoritos } from '../context/FavoritosContext';
 import './Navbar.css';
 
 const ENLACES = [
@@ -19,6 +20,7 @@ export default function Navbar() {
   const [textoBusqueda, setTextoBusqueda] = useState('');
   const { estaAutenticado, usuario, logout } = useAuth();
   const { cantidadTotal } = useCart();
+  const { productosFavoritos } = useFavoritos();
   const navigate = useNavigate();
   const cuentaRef = useRef(null);
   const busquedaRef = useRef(null);
@@ -110,9 +112,12 @@ export default function Navbar() {
             )}
           </div>
 
-          <button className="navbar__icono" aria-label="Favoritos">
+          <Link to="/favoritos" className="navbar__icono navbar__favoritos" aria-label="Favoritos">
             <Heart size={20} strokeWidth={1.8} />
-          </button>
+            {productosFavoritos.length > 0 && (
+              <span className="navbar__badge">{productosFavoritos.length}</span>
+            )}
+          </Link>
 
           {estaAutenticado ? (
             <div className="navbar__cuenta" ref={cuentaRef}>

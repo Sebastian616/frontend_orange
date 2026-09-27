@@ -4,6 +4,7 @@ import FranjaBeneficios from '../components/FranjaBeneficios';
 import Categorias from '../components/Categorias';
 import ProductosDestacados from '../components/ProductosDestacados';
 import BannerPromo from '../components/BannerPromo';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <Categorias />
         <ProductosDestacados />
         <BannerPromo />
+        <Footer />
       </main>
     </>
   );

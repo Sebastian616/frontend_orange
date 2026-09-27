@@ -27,6 +27,31 @@
   color: var(--color-verde-oliva);
 }
 
+.tarjeta-producto--no-disponible .tarjeta-producto__imagen {
+  filter: grayscale(70%);
+  opacity: 0.6;
+}
+
+.tarjeta-producto--no-disponible .tarjeta-producto__nombre,
+.tarjeta-producto--no-disponible .tarjeta-producto__precio {
+  opacity: 0.6;
+}
+
+.tarjeta-producto__etiqueta-no-disponible {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: var(--color-texto-principal);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .tarjeta-producto__favorito {
   position: absolute;
   top: 10px;

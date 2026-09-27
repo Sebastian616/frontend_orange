@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import FiltrosTienda from '../components/FiltrosTienda';
 import TarjetaProducto from '../components/TarjetaProducto';
 import Paginacion from '../components/Paginacion';
@@ -94,6 +95,7 @@ export default function Tienda() {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

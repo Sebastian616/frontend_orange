@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ImageOff, Heart, ShoppingCart } from 'lucide-react';
+import { ImageOff, Heart, ShoppingCart, EyeOff } from 'lucide-react';
 import { useFavoritos } from '../context/FavoritosContext';
 import { useCart } from '../context/CartContext';
 import { toastExito } from '../utils/alertas';
@@ -21,8 +21,13 @@ export default function TarjetaProducto({ producto }) {
   const foto = producto.fotos?.[0];
   const marcado = esFavorito(producto.id);
 
+  // producto.activo puede venir en false cuando el producto viene de
+  // /favoritos (esa lista no filtra por activo, a diferencia de /productos).
+  // Un producto desactivado no se puede comprar aunque siga en favoritos.
+  const noDisponible = producto.activo === false;
+
   const tallasConStock = producto.tallas?.filter((t) => t.stock > 0) || [];
-  const agotado = producto.tallas?.length > 0 && tallasConStock.length === 0;
+  const agotado = !noDisponible && producto.tallas?.length > 0 && tallasConStock.length === 0;
 
   function manejarAgregarAlCarrito() {
     if (tallasConStock.length === 1) {
@@ -36,7 +41,7 @@ export default function TarjetaProducto({ producto }) {
   }
 
   return (
-    <article className="tarjeta-producto">
+    <article className={`tarjeta-producto ${noDisponible ? 'tarjeta-producto--no-disponible' : ''}`}>
       <Link to={`/productos/${producto.id}`} className="tarjeta-producto__imagen-wrap">
         {foto ? (
           <img src={foto} alt={producto.nombre} className="tarjeta-producto__imagen" />
@@ -44,6 +49,13 @@ export default function TarjetaProducto({ producto }) {
           <div className="tarjeta-producto__imagen tarjeta-producto__imagen--vacia" aria-hidden="true">
             <ImageOff size={28} strokeWidth={1.5} />
           </div>
+        )}
+
+        {noDisponible && (
+          <span className="tarjeta-producto__etiqueta-no-disponible">
+            <EyeOff size={13} strokeWidth={2} />
+            No disponible
+          </span>
         )}
       </Link>
 
@@ -65,10 +77,10 @@ export default function TarjetaProducto({ producto }) {
         <button
           className="boton-secundario tarjeta-producto__boton"
           onClick={manejarAgregarAlCarrito}
-          disabled={agotado}
+          disabled={agotado || noDisponible}
         >
           <ShoppingCart size={16} strokeWidth={1.8} />
-          {agotado ? 'Agotado' : 'Agregar al carrito'}
+          {noDisponible ? 'No disponible' : agotado ? 'Agotado' : 'Agregar al carrito'}
         </button>
       </div>
     </article>

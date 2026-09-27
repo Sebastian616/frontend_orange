@@ -5,9 +5,11 @@ import { CartProvider } from './context/CartContext';
 import RutaAdmin from './components/RutaAdmin';
 import Home from './pages/Home';
 import Tienda from './pages/Tienda';
+import CategoriasPage from './pages/CategoriasPage';
+import Nosotros from './pages/Nosotros';
 import ProductoDetalle from './pages/ProductoDetalle';
 import Carrito from './pages/Carrito';
-import CategoriasPage from './pages/CategoriasPages';
+import Favoritos from './pages/Favoritos';
 import MisPedidos from './pages/MisPedidos';
 import Direcciones from './pages/Direcciones';
 import Perfil from './pages/Perfil';
@@ -28,9 +30,11 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/tienda" element={<Tienda />} />
-              <Route path='/categorias' element={<CategoriasPage />} />
+              <Route path="/categorias" element={<CategoriasPage />} />
+              <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/productos/:id" element={<ProductoDetalle />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/favoritos" element={<Favoritos />} />
               <Route path="/pedidos" element={<MisPedidos />} />
               <Route path="/direcciones" element={<Direcciones />} />
               <Route path="/perfil" element={<Perfil />} />
