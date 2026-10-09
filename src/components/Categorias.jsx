@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shirt, ShoppingBag, Layers, Wind, PackageSearch } from 'lucide-react';
-import { obtenerCategorias } from '../api/categorias';
+import { obtenerCategoriasConImagen } from '../api/categorias';
 import './Categorias.css';
 
-// Ícono de respaldo por si el backend no trae una imagen para la categoría
+// Ícono de respaldo para categorías que todavía no tienen ningún producto con foto
 const ICONO_POR_CATEGORIA = {
   Leggings: Wind,
   Tops: Shirt,
@@ -18,8 +18,8 @@ export default function Categorias() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    obtenerCategorias()
-      .then((data) => setCategorias(data))
+    obtenerCategoriasConImagen()
+      .then(setCategorias)
       .catch(() => setCategorias([]))
       .finally(() => setCargando(false));
   }, []);
@@ -31,7 +31,7 @@ export default function Categorias() {
           <h2>Categorías</h2>
           <p className="categorias__subtitulo">Encuentra lo que necesitas</p>
         </div>
-        <a href="/tienda" className="categorias__ver-todas">Ver todas →</a>
+        <Link to="/categorias" className="categorias__ver-todas">Ver todas →</Link>
       </div>
 
       {cargando && <p className="categorias__estado">Cargando categorías...</p>}
@@ -45,7 +45,11 @@ export default function Categorias() {
           return (
             <Link key={cat.id} to={`/tienda?categoria=${cat.id}`} className="categorias__tarjeta">
               <div className="categorias__imagen" aria-hidden="true">
-                <Icono size={24} strokeWidth={1.6} />
+                {cat.imagen ? (
+                  <img src={cat.imagen} alt="" loading="lazy" />
+                ) : (
+                  <Icono size={32} strokeWidth={1.5} />
+                )}
               </div>
               <p>{cat.nombre}</p>
             </Link>

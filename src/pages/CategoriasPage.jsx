@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shirt, ShoppingBag, Layers, Wind, PackageSearch } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { obtenerCategorias } from '../api/categorias';
-import { obtenerProductos } from '../api/productos';
 import Footer from '../components/Footer';
+import { obtenerCategoriasConImagen } from '../api/categorias';
 import './CategoriasPage.css';
 
+// Ícono de respaldo para categorías que todavía no tienen ningún producto con foto
 const ICONO_POR_CATEGORIA = {
   Leggings: Wind,
   Tops: Shirt,
@@ -20,21 +20,8 @@ export default function CategoriasPage() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    obtenerCategorias()
-      .then(async (cats) => {
-        // Trae el conteo real de productos activos por categoría
-        const conConteo = await Promise.all(
-          cats.map(async (cat) => {
-            try {
-              const data = await obtenerProductos({ categoria: cat.id, limit: 1 });
-              return { ...cat, totalProductos: data.paginacion?.total ?? 0 };
-            } catch {
-              return { ...cat, totalProductos: null };
-            }
-          })
-        );
-        setCategorias(conConteo);
-      })
+    obtenerCategoriasConImagen()
+      .then(setCategorias)
       .catch(() => setCategorias([]))
       .finally(() => setCargando(false));
   }, []);
@@ -58,21 +45,27 @@ export default function CategoriasPage() {
             const Icono = ICONO_POR_CATEGORIA[cat.nombre] || PackageSearch;
             return (
               <Link key={cat.id} to={`/tienda?categoria=${cat.id}`} className="categorias-page__tarjeta">
-                <div className="categorias-page__icono">
-                  <Icono size={32} strokeWidth={1.5} />
+                <div className="categorias-page__imagen" aria-hidden="true">
+                  {cat.imagen ? (
+                    <img src={cat.imagen} alt="" loading="lazy" />
+                  ) : (
+                    <Icono size={40} strokeWidth={1.5} />
+                  )}
                 </div>
-                <h2>{cat.nombre}</h2>
-                {cat.totalProductos !== null && (
-                  <p className="categorias-page__conteo">
-                    {cat.totalProductos} {cat.totalProductos === 1 ? 'producto' : 'productos'}
-                  </p>
-                )}
+                <div className="categorias-page__info">
+                  <h2>{cat.nombre}</h2>
+                  {cat.totalProductos !== null && (
+                    <p className="categorias-page__conteo">
+                      {cat.totalProductos} {cat.totalProductos === 1 ? 'producto' : 'productos'}
+                    </p>
+                  )}
+                </div>
               </Link>
             );
           })}
         </div>
       </main>
-    <Footer />
+      <Footer />
     </>
   );
 }
