@@ -5,11 +5,11 @@ export default function BannerPromo() {
     <section className="banner-promo">
       <div className="contenedor banner-promo__contenido">
         <h2 className="banner-promo__titulo">
-          Calidad, estilo y
+          ¿eres vendedor?
           <br />
-          comodidad en un solo lugar.
+          para compras al por mayor.
         </h2>
-        <a href="/tienda" className="boton-primario">Ver colección</a>
+        <a href="https://wa.me/3114163706" target="_blank" className="boton-primario"> Escribenos por whatsapp </a>
       </div>
     </section>
   );
