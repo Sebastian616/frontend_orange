@@ -104,7 +104,7 @@ export default function Direcciones() {
             <h2>{editandoId ? 'Editar dirección' : 'Agregar dirección'}</h2>
 
             <label>
-              Alias
+              Etiqueta
               <input
                 type="text"
                 placeholder="Casa, Trabajo..."
