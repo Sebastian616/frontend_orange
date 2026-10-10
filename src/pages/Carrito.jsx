@@ -17,7 +17,7 @@ function formatearPrecio(valor) {
   }).format(valor);
 }
 
-const COSTO_ENVIO = 8000;
+const COSTO_ENVIO = 10000;
 
 export default function Carrito() {
   const { items, actualizarCantidad, quitarDelCarrito, vaciarCarrito, subtotal } = useCart();
