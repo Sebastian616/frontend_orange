@@ -14,14 +14,16 @@
 }
 
 .navbar__logo {
-  font-family: var(--font-titulos);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-marron-oscuro);
   display: flex;
   align-items: center;
-  gap: 6px;
-  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Alto fijo + ancho automático: mantiene la proporción del logo sin deformarlo */
+.navbar__logo-img {
+  display: block;
+  height: 56px;
+  width: auto;
 }
 
 .navbar__enlaces {
@@ -223,5 +225,29 @@
 
   .navbar__logo {
     margin: 0 auto;
+  }
+
+  .navbar__logo-img {
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__interior {
+    gap: 8px;
+  }
+
+  .navbar__acciones {
+    gap: 4px;
+  }
+
+  .navbar__logo-img {
+    height: 36px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar__logo-img {
+    height: 30px;
   }
 }

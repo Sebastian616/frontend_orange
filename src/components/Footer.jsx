@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Citrus, Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import logo from '../assets/logo.png';
 import './Footer.css';
-// import Logo from '../utils/logo.png'
 
 const ENLACES_TIENDA = [
     { label: 'Tienda', href: '/tienda' },
@@ -26,9 +26,7 @@ export default function Footer() {
                 <div className="footer__grid">
                     <div className="footer__marca">
                         <Link to="/" className="footer__logo">
-                            <Citrus size={24} strokeWidth={2} />
-                            {/* <img src=3{Logo} size={24} strokeWidth={2} /> */}
-                            <span>Orange</span>
+                            <img src={logo} alt="Orange Store Woman" className="footer__logo-img" />
                         </Link>
                         <p className="footer__descripcion">
                             Tu mejor eleccion en ropa deportiva

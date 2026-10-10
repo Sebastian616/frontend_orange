@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Citrus, Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle, Sun, Moon } from 'lucide-react';
+import { Menu, X, Search, Heart, User, ShoppingCart, LogOut, Package, MapPin, ChevronDown, Shield, UserCircle, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useFavoritos } from '../context/FavoritosContext';
 import { useTheme } from '../context/ThemeContext';
+import logo from '../assets/logo.png';
 import './Navbar.css';
 
 const ENLACES = [
@@ -75,8 +76,7 @@ export default function Navbar() {
         </button>
 
         <Link to="/" className="navbar__logo">
-          <Citrus size={24} strokeWidth={2} />
-          <span>Orange</span>
+          <img src={logo} alt="Orange Store Woman" className="navbar__logo-img" />
         </Link>
 
         <nav className={`navbar__enlaces ${menuAbierto ? 'navbar__enlaces--abierto' : ''}`}>
