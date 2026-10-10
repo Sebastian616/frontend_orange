@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import CarruselHero from './CarruselHero';
 import './Hero.css';
 
 export default function Hero() {
@@ -13,11 +15,11 @@ export default function Hero() {
         <p className="hero__descripcion">
           Ropa y accesorios diseñados para acompañarte en cada momento.
         </p>
-        <a href="/tienda" className="boton-primario hero__cta">
+        <Link to="/tienda" className="boton-primario hero__cta">
           Explorar tienda
-        </a>
+        </Link>
       </div>
-      <div className="hero__imagen" role="img" aria-label="Mujer usando ropa deportiva de la colección Orange" />
+      <CarruselHero />
     </section>
   );
 }
