@@ -1,0 +1,35 @@
+/* ---------------------------------------------------------------
+   Fondo con patrón de corazones (src/assets/patron-corazones.png)
+
+   Es una capa fija que cubre TODA la ventana y va detrás del contenido,
+   así que se ve de lado a lado en todas las páginas, incluida la tienda,
+   y se queda quieta mientras haces scroll. Las tarjetas, el navbar, el
+   hero y el footer tienen fondo propio y quedan por encima.
+--------------------------------------------------------------- */
+:root {
+  /* Los corazones del archivo son exactamente #6B7280.
+     0 = invisible · 1 = #6B7280 sin atenuar (más fuerte, puede restar
+     legibilidad al texto que va directo sobre el fondo). */
+  --patron-opacidad: 0.2;
+
+  /* Ancho de cada mosaico (el alto se ajusta solo). Más grande = corazones más grandes. */
+  --patron-tamano: 1000px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('../assets/patron-corazones.png');
+  background-repeat: repeat;
+  background-size: var(--patron-tamano) auto;
+  opacity: var(--patron-opacidad);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --patron-tamano: 700px; /* corazones un poco más pequeños en el celular */
+  }
+}
