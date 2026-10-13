@@ -34,12 +34,9 @@ export default function Nosotros() {
       <main className="nosotros">
         <section className="nosotros__hero">
           <div className="contenedor nosotros__hero-contenido">
-            <p className="nosotros__eyebrow">Nuestra historia</p>
             <h1>Ropa deportiva que se mueve contigo</h1>
             <p className="nosotros__hero-texto">
-              Orange nace de una idea simple: la ropa deportiva para dama debería sentirse tan bien como se ve.
-              Creamos piezas cómodas, duraderas y con estilo, para que te sientas segura en cada movimiento —
-              ya sea en el gimnasio, en la calle o en un día tranquilo en casa.
+              En Orange, diseñamos ropa deportiva femenina creada para acompañar cada movimiento y celebrar la fuerza de la mujer en todas sus versiones. Combinamos telas de alta calidad, compresión estratégica y tecnología de secado rápido con diseños modernos que ofrecen el equilibrio perfecto entre máximo rendimiento, comodidad absoluta y estilo. Nos inspira la versatilidad de la vida activa actual; por eso, cada una de nuestras prendas está pensada para adaptarse sin esfuerzo tanto a tus entrenamientos más exigentes como a tu rutina diaria, brindándote la seguridad, el soporte y la libertad que necesitas para superar cualquier meta con confianza.
             </p>
           </div>
         </section>
