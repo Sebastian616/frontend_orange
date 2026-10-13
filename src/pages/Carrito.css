@@ -249,3 +249,8 @@
   .carrito__item-cantidad { grid-area: cantidad; }
   .carrito__item-subtotal { grid-area: subtotal; text-align: right; }
 }
+
+.carrito__envio-gratis {
+  color: var(--color-marron-oscuro);
+  font-weight: 700;
+}

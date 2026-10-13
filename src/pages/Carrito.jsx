@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext';
 import { crearPedido } from '../api/pedidos';
 import { obtenerDirecciones } from '../api/direcciones';
 import { alertaError, alertaAviso } from '../utils/alertas';
+import BarraEnvioGratis from '../components/BarraEnvioGratis';
+import { calcularCostoEnvio } from '../config/envio';
 import './Carrito.css';
 
 function formatearPrecio(valor) {
@@ -16,8 +18,6 @@ function formatearPrecio(valor) {
     maximumFractionDigits: 0,
   }).format(valor);
 }
-
-const COSTO_ENVIO = 10000;
 
 export default function Carrito() {
   const { items, actualizarCantidad, quitarDelCarrito, vaciarCarrito, subtotal } = useCart();
@@ -30,7 +30,8 @@ export default function Carrito() {
   const [direccionId, setDireccionId] = useState('');
   const [cargandoDirecciones, setCargandoDirecciones] = useState(true);
 
-  const total = items.length > 0 ? subtotal + COSTO_ENVIO : 0;
+  const costoEnvio = items.length > 0 ? calcularCostoEnvio(subtotal) : 0;
+  const total = items.length > 0 ? subtotal + costoEnvio : 0;
 
   useEffect(() => {
     if (!estaAutenticado) {
@@ -68,7 +69,7 @@ export default function Carrito() {
             tallaId: i.tallaId,
             cantidad: i.cantidad,
           })),
-          costoEnvio: COSTO_ENVIO,
+          costoEnvio,
         },
         token
       );
@@ -105,6 +106,8 @@ export default function Carrito() {
       <Navbar />
       <main className="contenedor carrito">
         <h1>Tu carrito</h1>
+
+        {items.length > 0 && <BarraEnvioGratis subtotal={subtotal} />}
 
         {items.length === 0 ? (
           <div className="carrito__vacio">
@@ -194,7 +197,11 @@ export default function Carrito() {
               </div>
               <div className="carrito__resumen-linea">
                 <span>Envío</span>
-                <span>{formatearPrecio(COSTO_ENVIO)}</span>
+                {costoEnvio === 0 ? (
+                  <span className="carrito__envio-gratis">Gratis</span>
+                ) : (
+                  <span>{formatearPrecio(costoEnvio)}</span>
+                )}
               </div>
               <div className="carrito__resumen-linea carrito__resumen-total">
                 <span>Total</span>

@@ -1,0 +1,39 @@
+/* Colores invertidos respecto a la página (oscuro en modo claro, claro en
+   modo oscuro): así el texto siempre tiene buen contraste en ambos modos. */
+.banner-envio {
+  background: var(--color-texto-principal);
+  color: var(--color-fondo);
+  padding: 14px 0;
+}
+
+.banner-envio__interior {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.banner-envio__texto {
+  margin: 0;
+  font-size: var(--texto-grande);
+}
+
+.banner-envio__enlace {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.banner-envio__enlace:hover {
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 560px) {
+  .banner-envio__texto {
+    font-size: var(--texto-normal);
+  }
+}

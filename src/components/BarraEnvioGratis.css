@@ -1,0 +1,40 @@
+.barra-envio {
+  background: var(--color-verde-claro);
+  border-radius: var(--radio-borde);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.barra-envio__texto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: var(--texto-normal);
+  color: var(--color-texto-principal);
+}
+
+.barra-envio__texto svg {
+  color: var(--color-marron-oscuro);
+  flex-shrink: 0;
+}
+
+.barra-envio__pista {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-verde-menta);
+  overflow: hidden;
+}
+
+.barra-envio__relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-marron-oscuro);
+  transition: width 0.4s ease;
+}
+
+.barra-envio__nota {
+  margin: 8px 0 0;
+  font-size: var(--texto-pequeno);
+  color: var(--color-texto-secundario);
+}
