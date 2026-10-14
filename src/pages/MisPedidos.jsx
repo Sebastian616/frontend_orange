@@ -118,6 +118,9 @@ export default function MisPedidos() {
                       </ul>
                       <div className="mis-pedidos__resumen-costos">
                         <div><span>Subtotal</span><span>{formatearPrecio(pedido.subtotal)}</span></div>
+                        {Number(pedido.descuento) > 0 && (
+                          <div><span>Descuento primera compra</span><span>-{formatearPrecio(pedido.descuento)}</span></div>
+                        )}
                         <div><span>Envío</span><span>{formatearPrecio(pedido.costo_envio)}</span></div>
                       </div>
 

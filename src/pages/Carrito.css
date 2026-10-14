@@ -254,3 +254,8 @@
   color: var(--color-marron-oscuro);
   font-weight: 700;
 }
+
+.carrito__resumen-descuento {
+  color: var(--color-marron-oscuro);
+  font-weight: 600;
+}

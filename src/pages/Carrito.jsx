@@ -4,7 +4,7 @@ import { Trash2, ShoppingBag, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { crearPedido } from '../api/pedidos';
+import { crearPedido, obtenerDescuentoBienvenida } from '../api/pedidos';
 import { obtenerDirecciones } from '../api/direcciones';
 import { alertaError, alertaAviso } from '../utils/alertas';
 import BarraEnvioGratis from '../components/BarraEnvioGratis';
@@ -29,9 +29,15 @@ export default function Carrito() {
   const [direcciones, setDirecciones] = useState([]);
   const [direccionId, setDireccionId] = useState('');
   const [cargandoDirecciones, setCargandoDirecciones] = useState(true);
+  const [descuentoBienvenida, setDescuentoBienvenida] = useState({ disponible: false, porcentaje: 0 });
 
   const costoEnvio = items.length > 0 ? calcularCostoEnvio(subtotal) : 0;
-  const total = items.length > 0 ? subtotal + costoEnvio : 0;
+  // Descuento de primera compra. Es solo para mostrarlo: el servidor lo recalcula al crear el pedido.
+  const descuento =
+    items.length > 0 && descuentoBienvenida.disponible
+      ? Math.round((subtotal * descuentoBienvenida.porcentaje) / 100)
+      : 0;
+  const total = items.length > 0 ? subtotal - descuento + costoEnvio : 0;
 
   useEffect(() => {
     if (!estaAutenticado) {
@@ -45,6 +51,16 @@ export default function Carrito() {
       })
       .catch(() => setDirecciones([]))
       .finally(() => setCargandoDirecciones(false));
+  }, [estaAutenticado, token]);
+
+  useEffect(() => {
+    if (!estaAutenticado) {
+      setDescuentoBienvenida({ disponible: false, porcentaje: 0 });
+      return;
+    }
+    obtenerDescuentoBienvenida(token)
+      .then(setDescuentoBienvenida)
+      .catch(() => setDescuentoBienvenida({ disponible: false, porcentaje: 0 }));
   }, [estaAutenticado, token]);
 
   async function manejarCheckout() {
@@ -76,6 +92,8 @@ export default function Carrito() {
 
       setPedidoConfirmado(pedido);
       vaciarCarrito();
+      // El descuento se gasta apenas se crea el pedido
+      setDescuentoBienvenida((d) => ({ ...d, disponible: false }));
     } catch (err) {
       alertaError(err.message || 'No pudimos procesar tu pedido');
     } finally {
@@ -195,6 +213,12 @@ export default function Carrito() {
                 <span>Subtotal</span>
                 <span>{formatearPrecio(subtotal)}</span>
               </div>
+              {descuento > 0 && (
+                <div className="carrito__resumen-linea carrito__resumen-descuento">
+                  <span>Descuento primera compra ({descuentoBienvenida.porcentaje}%)</span>
+                  <span>-{formatearPrecio(descuento)}</span>
+                </div>
+              )}
               <div className="carrito__resumen-linea">
                 <span>Envío</span>
                 {costoEnvio === 0 ? (

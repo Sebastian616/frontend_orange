@@ -1,5 +1,9 @@
 import request from './client';
 
+export function obtenerDescuentoBienvenida(token) {
+  return request('/pedidos/descuento-bienvenida', { token });
+}
+
 export function crearPedido({ direccionId, items, costoEnvio }, token) {
   return request('/pedidos', {
     method: 'POST',
