@@ -39,7 +39,7 @@ export default function Footer() {
                                 <Instagram size={18} strokeWidth={1.8} />
                             </a>
                             {/* pendiente agregar tik tok */}
-                            <a href="#" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.tiktok.com/@orangestore27?_r=1&_t=ZS-9AXd6NOVWey" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M16.6 5.82c-1.02-.9-1.6-2.2-1.6-3.6h-3.4v14.2c0 1.7-1.38 3.08-3.08 3.08s-3.08-1.38-3.08-3.08 1.38-3.08 3.08-3.08c.34 0 .66.06.96.16V9.9c-.32-.04-.64-.07-.96-.07-3.6 0-6.5 2.9-6.5 6.5s2.9 6.5 6.5 6.5 6.5-2.9 6.5-6.5V9.4c1.38 1 3.08 1.6 4.9 1.6V7.6c-1.02 0-1.98-.36-2.72-.98-.2-.16-.4-.34-.6-.8z" transform="translate(1)" />
                                 </svg>
