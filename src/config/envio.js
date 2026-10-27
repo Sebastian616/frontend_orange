@@ -4,7 +4,7 @@
 // (pedidoService.js tiene las mismas dos constantes). Si cambias estos
 // valores, cámbialos también allá para que ambos lados coincidan.
 export const ENVIO_GRATIS_DESDE = 80000; // subtotal de productos, en pesos
-export const COSTO_ENVIO_ESTANDAR = 8000;
+export const COSTO_ENVIO_ESTANDAR = 100;
 
 export function calcularCostoEnvio(subtotal) {
   return subtotal >= ENVIO_GRATIS_DESDE ? 0 : COSTO_ENVIO_ESTANDAR;
