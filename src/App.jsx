@@ -10,6 +10,8 @@ import CategoriasPage from './pages/CategoriasPage';
 import Nosotros from './pages/Nosotros';
 import ProductoDetalle from './pages/ProductoDetalle';
 import Carrito from './pages/Carrito';
+import Checkout from './pages/Checkout';
+import PagoResultado from './pages/PagoResultado';
 import Favoritos from './pages/Favoritos';
 import MisPedidos from './pages/MisPedidos';
 import Direcciones from './pages/Direcciones';
@@ -36,6 +38,8 @@ export default function App() {
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/productos/:id" element={<ProductoDetalle />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/pago" element={<Checkout />} />
+              <Route path="/pago/resultado" element={<PagoResultado />} />
               <Route path="/favoritos" element={<Favoritos />} />
               <Route path="/pedidos" element={<MisPedidos />} />
               <Route path="/direcciones" element={<Direcciones />} />

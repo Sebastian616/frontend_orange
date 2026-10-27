@@ -1,0 +1,33 @@
+.pago-resultado {
+  padding: 80px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-marron-oscuro);
+}
+
+.pago-resultado h1 {
+  color: var(--color-texto-principal);
+}
+
+.pago-resultado__texto {
+  margin: 0;
+  max-width: 480px;
+  color: var(--color-texto-secundario);
+}
+
+.pago-resultado__total {
+  margin: 0 0 12px;
+  font-size: var(--texto-grande);
+  font-weight: 700;
+  color: var(--color-texto-principal);
+}
+
+.pago-resultado__acciones {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

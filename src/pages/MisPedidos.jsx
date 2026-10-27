@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Package, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
-import { obtenerMisPedidos, obtenerHistorialPedido } from '../api/pedidos';
+import { obtenerMisPedidos, obtenerHistorialPedido, iniciarPagoTarjeta } from '../api/pedidos';
 import { obtenerDirecciones } from '../api/direcciones';
-import { toastError } from '../utils/alertas';
+import { toastError, alertaError } from '../utils/alertas';
 import './MisPedidos.css';
 
 function formatearPrecio(valor) {
@@ -29,6 +29,12 @@ const ETIQUETA_ESTADO = {
   CANCELADO: 'Cancelado',
 };
 
+const ETIQUETA_METODO = {
+  EFECTIVO: 'Efectivo',
+  TRANSFERENCIA: 'Transferencia',
+  TARJETA: 'Tarjeta (Mercado Pago)',
+};
+
 export default function MisPedidos() {
   const { estaAutenticado, token } = useAuth();
   const navigate = useNavigate();
@@ -38,6 +44,7 @@ export default function MisPedidos() {
   const [cargando, setCargando] = useState(true);
   const [pedidoAbierto, setPedidoAbierto] = useState(null);
   const [historiales, setHistoriales] = useState({});
+  const [pagandoId, setPagandoId] = useState(null);
 
   useEffect(() => {
     if (!estaAutenticado) {
@@ -64,6 +71,18 @@ export default function MisPedidos() {
       obtenerHistorialPedido(pedidoId, token)
         .then((data) => setHistoriales((prev) => ({ ...prev, [pedidoId]: data })))
         .catch(() => toastError('No pudimos cargar el seguimiento de este pedido'));
+    }
+  }
+
+  // Retoma el pago con tarjeta de un pedido que quedó pendiente
+  async function pagarAhora(pedido) {
+    setPagandoId(pedido.id);
+    try {
+      const { initPoint } = await iniciarPagoTarjeta(pedido.id, token);
+      window.location.assign(initPoint);
+    } catch (err) {
+      alertaError(err.message || 'No pudimos iniciar el pago');
+      setPagandoId(null);
     }
   }
 
@@ -121,8 +140,23 @@ export default function MisPedidos() {
                         {Number(pedido.descuento) > 0 && (
                           <div><span>Descuento primera compra</span><span>-{formatearPrecio(pedido.descuento)}</span></div>
                         )}
-                        <div><span>Envío</span><span>{formatearPrecio(pedido.costo_envio)}</span></div>
+                        <div>
+                          <span>Envío</span>
+                          <span>{Number(pedido.costo_envio) === 0 ? 'Gratis' : formatearPrecio(pedido.costo_envio)}</span>
+                        </div>
+                        <div><span>Método de pago</span><span>{ETIQUETA_METODO[pedido.metodo_pago] || '—'}</span></div>
                       </div>
+
+                      {pedido.metodo_pago === 'TARJETA' && pedido.estado === 'PENDIENTE' && !pedido.mp_pago_id && (
+                        <button
+                          className="boton-primario"
+                          style={{ marginTop: 14 }}
+                          onClick={() => pagarAhora(pedido)}
+                          disabled={pagandoId === pedido.id}
+                        >
+                          {pagandoId === pedido.id ? 'Abriendo Mercado Pago...' : 'Pagar ahora'}
+                        </button>
+                      )}
 
                       <div className="mis-pedidos__direccion">
                         <h3><MapPin size={15} strokeWidth={1.8} /> Dirección de envío</h3>

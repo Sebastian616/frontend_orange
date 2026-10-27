@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Trash2, ShoppingBag, MapPin } from 'lucide-react';
+import { Trash2, ShoppingBag } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { crearPedido, obtenerDescuentoBienvenida } from '../api/pedidos';
-import { obtenerDirecciones } from '../api/direcciones';
-import { alertaError, alertaAviso } from '../utils/alertas';
+import useResumenPedido from '../hooks/useResumenPedido';
 import BarraEnvioGratis from '../components/BarraEnvioGratis';
-import { calcularCostoEnvio } from '../config/envio';
 import './Carrito.css';
 
 function formatearPrecio(valor) {
@@ -20,104 +16,10 @@ function formatearPrecio(valor) {
 }
 
 export default function Carrito() {
-  const { items, actualizarCantidad, quitarDelCarrito, vaciarCarrito, subtotal } = useCart();
-  const { estaAutenticado, token } = useAuth();
+  const { items, actualizarCantidad, quitarDelCarrito, subtotal } = useCart();
+  const { estaAutenticado } = useAuth();
   const navigate = useNavigate();
-
-  const [procesando, setProcesando] = useState(false);
-  const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
-  const [direcciones, setDirecciones] = useState([]);
-  const [direccionId, setDireccionId] = useState('');
-  const [cargandoDirecciones, setCargandoDirecciones] = useState(true);
-  const [descuentoBienvenida, setDescuentoBienvenida] = useState({ disponible: false, porcentaje: 0 });
-
-  const costoEnvio = items.length > 0 ? calcularCostoEnvio(subtotal) : 0;
-  // Descuento de primera compra. Es solo para mostrarlo: el servidor lo recalcula al crear el pedido.
-  const descuento =
-    items.length > 0 && descuentoBienvenida.disponible
-      ? Math.round((subtotal * descuentoBienvenida.porcentaje) / 100)
-      : 0;
-  const total = items.length > 0 ? subtotal - descuento + costoEnvio : 0;
-
-  useEffect(() => {
-    if (!estaAutenticado) {
-      setCargandoDirecciones(false);
-      return;
-    }
-    obtenerDirecciones(token)
-      .then((data) => {
-        setDirecciones(data);
-        if (data.length > 0) setDireccionId(data[0].id);
-      })
-      .catch(() => setDirecciones([]))
-      .finally(() => setCargandoDirecciones(false));
-  }, [estaAutenticado, token]);
-
-  useEffect(() => {
-    if (!estaAutenticado) {
-      setDescuentoBienvenida({ disponible: false, porcentaje: 0 });
-      return;
-    }
-    obtenerDescuentoBienvenida(token)
-      .then(setDescuentoBienvenida)
-      .catch(() => setDescuentoBienvenida({ disponible: false, porcentaje: 0 }));
-  }, [estaAutenticado, token]);
-
-  async function manejarCheckout() {
-    if (!estaAutenticado) {
-      navigate('/login', { state: { from: '/carrito' } });
-      return;
-    }
-
-    if (!direccionId) {
-      alertaAviso('Selecciona (o agrega) una dirección de envío antes de continuar');
-      return;
-    }
-
-    setProcesando(true);
-
-    try {
-      const pedido = await crearPedido(
-        {
-          direccionId,
-          items: items.map((i) => ({
-            productoId: i.productoId,
-            tallaId: i.tallaId,
-            cantidad: i.cantidad,
-          })),
-          costoEnvio,
-        },
-        token
-      );
-
-      setPedidoConfirmado(pedido);
-      vaciarCarrito();
-      // El descuento se gasta apenas se crea el pedido
-      setDescuentoBienvenida((d) => ({ ...d, disponible: false }));
-    } catch (err) {
-      alertaError(err.message || 'No pudimos procesar tu pedido');
-    } finally {
-      setProcesando(false);
-    }
-  }
-
-  if (pedidoConfirmado) {
-    return (
-      <>
-        <Navbar />
-        <main className="contenedor carrito__confirmacion">
-          <ShoppingBag size={48} strokeWidth={1.3} />
-          <h1>¡Pedido confirmado!</h1>
-          <p>Tu pedido quedó registrado con estado <strong>{pedidoConfirmado.estado}</strong>.</p>
-          <p className="carrito__confirmacion-total">Total: {formatearPrecio(pedidoConfirmado.total)}</p>
-          <div className="carrito__confirmacion-acciones">
-            <Link to="/pedidos" className="boton-primario">Ver mis pedidos</Link>
-            <Link to="/tienda" className="boton-secundario">Seguir comprando</Link>
-          </div>
-        </main>
-      </>
-    );
-  }
+  const { costoEnvio, descuento, total, descuentoBienvenida } = useResumenPedido(items, subtotal);
 
   return (
     <>
@@ -179,36 +81,6 @@ export default function Carrito() {
             <aside className="carrito__resumen">
               <h2>Resumen</h2>
 
-              {estaAutenticado && (
-                <div className="carrito__direccion">
-                  <h3><MapPin size={16} strokeWidth={1.8} /> Dirección de envío</h3>
-
-                  {cargandoDirecciones && <p className="carrito__direccion-estado">Cargando...</p>}
-
-                  {!cargandoDirecciones && direcciones.length === 0 && (
-                    <p className="carrito__direccion-vacio">
-                      No tienes direcciones guardadas.{' '}
-                      <Link to="/direcciones" state={{ from: '/carrito' }}>Agregar una</Link>
-                    </p>
-                  )}
-
-                  {!cargandoDirecciones && direcciones.length > 0 && (
-                    <>
-                      <select value={direccionId} onChange={(e) => setDireccionId(e.target.value)}>
-                        {direcciones.map((d) => (
-                          <option key={d.id} value={d.id}>
-                            {d.alias} — {d.direccion}, {d.ciudad}
-                          </option>
-                        ))}
-                      </select>
-                      <Link to="/direcciones" className="carrito__direccion-editar" state={{ from: '/carrito' }}>
-                        Gestionar direcciones
-                      </Link>
-                    </>
-                  )}
-                </div>
-              )}
-
               <div className="carrito__resumen-linea">
                 <span>Subtotal</span>
                 <span>{formatearPrecio(subtotal)}</span>
@@ -232,8 +104,8 @@ export default function Carrito() {
                 <span>{formatearPrecio(total)}</span>
               </div>
 
-              <button className="boton-primario carrito__boton-checkout" onClick={manejarCheckout} disabled={procesando}>
-                {procesando ? 'Procesando...' : 'Confirmar pedido'}
+              <button className="boton-primario carrito__boton-checkout" onClick={() => navigate('/pago')}>
+                Continuar al pago
               </button>
 
               {!estaAutenticado && (
